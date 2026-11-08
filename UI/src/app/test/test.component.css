@@ -1,0 +1,35 @@
+
+::ng-deep .ng-select {
+    border-radius: 8px;
+    /* background-color: #e0f7fa; */
+  }
+  
+
+  ::ng-deep .ng-option {
+    color: #00695c;
+    font-size: 14px;
+    background-color: whitesmoke;
+    padding: 8px 10px;
+  }
+  
+  ::ng-deep .ng-select .ng-option:hover {
+    background-color: red;
+    color: white;
+
+  }
+
+  ::ng-deep .ng-select .ng-option {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: flex-start; /* Align content to the left */
+  }
+  
+  ::ng-deep  .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

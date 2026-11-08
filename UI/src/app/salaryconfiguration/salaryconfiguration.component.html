@@ -1,0 +1,412 @@
+<div class="card ribbon-box border shadow-none mb-lg-0">
+  <div class="card-body text-muted">
+    <div class="ribbon-three ribbon-three-success">
+      <span
+        style="font-family: calibri; font-weight: bolder; letter-spacing: 1px"
+      >
+        Salary
+        <br />
+        Configure
+      </span>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                >
+                  <i class="bx bx-plus-circle align-middle fs-16 me-2"></i
+                  >Create New
+                </button>
+              </div>
+            </div>
+            <br />
+
+            <div class="table-responsive">
+              <table class="table table-gridjs">
+                <thead style="background-color: rgb(243, 243, 249)">
+                  <tr>
+                    <th style="width: 20%">
+                      <a (click)="sortBy('workertype')"
+                        >Worker Type {{ sortIcon("workertype") }}</a
+                      >
+                    </th>
+                    <th style="width: 15%">
+                      <a (click)="sortBy('wages')"
+                        >Wages {{ sortIcon("wages") }}</a
+                      >
+                    </th>
+                    <th style="width: 15%">
+                      <a (click)="sortBy('ot')">OT {{ sortIcon("ot") }}</a>
+                    </th>
+
+                    <th style="width: 25%">
+                      <a (click)="sortBy('allowanceapplicable')"
+                        >Allowance Applicable
+                        {{ sortIcon("allowanceapplicable") }}</a
+                      >
+                    </th>
+                    <th style="width: 25%">
+                      <a (click)="sortBy('otallowanceapplicable')"
+                        >OT Allowance Applicable
+                        {{ sortIcon("otallowanceapplicable") }}</a
+                      >
+                    </th>
+                    <th style="width: 20%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of items">
+                    <td>{{ data.workertype }}</td>
+                    <td>{{ data.wages }}</td>
+                    <td>{{ data.ot }}</td>
+
+                    <td>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [checked]="data.allowanceapplicable"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [checked]="data.otallowanceapplicable"
+                      />
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdropEdit"
+                        (click)="GetDataByID(data.id)"
+                      >
+                        <i class="bx bx-pencil"></i>
+                      </button>
+                      &nbsp;
+                      <button
+                        type="button"
+                        class="btn btn-warning"
+                        (click)="Delete(data.id)"
+                      >
+                        <i class="bx bxs-trash-alt"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- end card-body -->
+        </div>
+        <!-- end card -->
+      </div>
+      <!-- end col -->
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="MasterForm">
+  <input type="hidden" formControlName="ID" />
+  <!-- ✅ ADDED - Should be here -->
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            <!-- ✅ Fixed ID -->
+            <i class="bx bx-plus-circle"></i> Salary Configuration
+            <!-- ✅ Fixed title & icon -->
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12 mb-3">
+              <!-- ✅ Added margin bottom -->
+              <label for="create-workertype" class="col-form-label"
+                >Worker Type: <span class="text-danger">*</span></label
+              >
+              <select
+                id="create-workertype"
+                class="form-select"
+                formControlName="WorkerTypeID"
+              >
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of workertypelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+              <!-- ✅ Added validation message -->
+              <div
+                class="text-danger mt-1"
+                *ngIf="
+                  MasterForm.get('WorkerTypeID')?.touched &&
+                  MasterForm.get('WorkerTypeID')?.value === ''
+                "
+              >
+                <small>Worker type is required</small>
+              </div>
+            </div>
+            <div class="col-sm-12 mb-3">
+              <!-- ✅ Added margin bottom -->
+              <label for="create-wages" class="col-form-label"
+                >Wages: <span class="text-danger">*</span></label
+              >
+              <!-- ✅ Added asterisk -->
+              <input
+                type="number"
+                id="create-wages"
+                class="form-control"
+                formControlName="Wages"
+                placeholder="Enter wage amount"
+                step="0.01"
+                min="0"
+              />
+              <!-- ✅ Added validation message -->
+              <div
+                class="text-danger mt-1"
+                *ngIf="
+                  MasterForm.get('Wages')?.touched &&
+                  MasterForm.get('Wages')?.value === ''
+                "
+              >
+                <small>Wage amount is required</small>
+              </div>
+            </div>
+
+            <div class="col-sm-12 mb-3">
+              <!-- ✅ Added margin bottom -->
+              <label for="create-ot" class="col-form-label"
+                >OT: <span class="text-danger">*</span></label
+              >
+              <input
+                type="number"
+                id="create-ot"
+                class="form-control"
+                formControlName="OT"
+                placeholder="Enter OT amount"
+                step="0.01"
+                min="0"
+              />
+              <!-- ✅ Added validation message -->
+              <div
+                class="text-danger mt-1"
+                *ngIf="
+                  MasterForm.get('OT')?.touched &&
+                  MasterForm.get('OT')?.value === ''
+                "
+              >
+                <small>OT amount is required</small>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-check">
+                <!-- ✅ Bootstrap checkbox wrapper -->
+                <input
+                  type="checkbox"
+                  id="create-allowance"
+                  class="form-check-input"
+                  formControlName="AllowanceApplicable"
+                />
+                <label class="form-check-label" for="create-allowance">
+                  Allowance Applicable
+                </label>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-check">
+                <!-- ✅ Bootstrap checkbox wrapper -->
+                <input
+                  type="checkbox"
+                  id="create-ot-allowance"
+                  class="form-check-input"
+                  formControlName="OTAllowanceApplicable"
+                />
+                <label class="form-check-label" for="create-ot-allowance">
+                  OT Allowance Applicable
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button
+            type="button"
+            (click)="Create()"
+            class="btn btn-success"
+            [disabled]="!MasterForm.valid || submitted"
+          >
+            <i class="bx bx-check"></i>
+            {{ submitted ? "Creating..." : "Create" }}
+            <!-- ✅ Loading state -->
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="EMasterForm">
+  <input type="hidden" formControlName="EID" />
+  <!-- ✅ ADDED - This was missing! -->
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdropEdit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropEditLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropEditLabel">
+            <!-- ✅ Changed ID -->
+            <i class="bx bx-pencil"></i> Salary Configuration
+            <!-- ✅ Changed title -->
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="edit-workertype" class="col-form-label"
+                >Worker Type:</label
+              >
+              <!-- ✅ Added unique ID -->
+              <select
+                id="edit-workertype"
+                class="form-select"
+                formControlName="EWorkerTypeID"
+              >
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of workertypelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-12">
+              <label for="edit-wages" class="col-form-label">Wages:</label>
+              <!-- ✅ Added unique ID -->
+              <input
+                type="number"
+                id="edit-wages"
+                class="form-control"
+                formControlName="EWages"
+                placeholder="Enter wage amount"
+              />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="edit-ot" class="col-form-label">OT:</label>
+              <!-- ✅ Added unique ID -->
+              <input
+                type="number"
+                id="edit-ot"
+                class="form-control"
+                formControlName="EOT"
+                placeholder="Enter OT amount"
+              />
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-check mt-3">
+                <!-- ✅ Better checkbox layout -->
+                <input
+                  type="checkbox"
+                  id="edit-allowance"
+                  class="form-check-input"
+                  formControlName="EAllowanceApplicable"
+                />
+                <label class="form-check-label" for="edit-allowance">
+                  Allowance Applicable
+                </label>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-check mt-3">
+                <!-- ✅ Better checkbox layout -->
+                <input
+                  type="checkbox"
+                  id="edit-ot-allowance"
+                  class="form-check-input"
+                  formControlName="EOTAllowanceApplicable"
+                />
+                <label class="form-check-label" for="edit-ot-allowance">
+                  OT Allowance Applicable
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button
+            type="button"
+            (click)="Update()"
+            class="btn btn-success"
+            [disabled]="!EMasterForm.valid"
+          >
+            <i class="bx bx-check"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

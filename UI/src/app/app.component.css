@@ -1,0 +1,23 @@
+/* 
+.app-menu {
+  width: 250px;
+  transition: all 0.3s ease;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.app-menu.collapsed {
+  transform: translateX(-100%);
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+
+#layout-wrapper.full-width {
+ margin-left: 250px;
+  transition: margin-left 0.3s ease;
+} */

@@ -1,0 +1,315 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">
+          <i class="bx bxs-leaf"></i> Leave Management
+        </h4>
+      </div>
+      <!-- end card header -->
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              *hasPermission="'insert'"
+            >
+              <i class="bx bx-plus-circle align-middle fs-16 me-2"></i>Create
+              New
+            </button>
+          </div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <div class="search-box">
+              <input
+                type="text"
+                class="form-control search"
+                placeholder="Search..."
+                [(ngModel)]="searchText"
+                (input)="filterData()"
+              />
+
+              <i class="ri-search-line search-icon"></i>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <div class="table-responsive">
+          <table class="table table-gridjs">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th>
+                  <a (click)="sortBy('name')">Name {{ sortIcon("name") }}</a>
+                </th>
+                <th>
+                  <a (click)="sortBy('code')">Code {{ sortIcon("code") }}</a>
+                </th>
+                <th>
+                  <a (click)="sortBy('ltname')"
+                    >Leave Type {{ sortIcon("ltname") }}</a
+                  >
+                </th>
+                <th>
+                  <a (click)="sortBy('approvedfromdate')"
+                    >From Date {{ sortIcon("approvedfromdate") }}</a
+                  >
+                </th>
+                <th>
+                  <a (click)="sortBy('approvedtodate')"
+                    >To Date {{ sortIcon("approvedtodate") }}</a
+                  >
+                </th>
+                <th>
+                  <a (click)="sortBy('approveddate')"
+                    >Approved Date {{ sortIcon("approveddate") }}</a
+                  >
+                </th>
+                <th>
+                  <a (click)="sortBy('totaldays')"
+                    >Total Days {{ sortIcon("totaldays") }}</a
+                  >
+                </th>
+
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of pageOfItems">
+                <td>{{ data.name }}</td>
+                <td>{{ data.code }}</td>
+                <td>{{ data.ltname }}</td>
+                <td>{{ data.approvedfromdate }}</td>
+                <td>{{ data.approvedtodate }}</td>
+                <td>{{ data.approveddate }}</td>
+                <td>{{ data.totaldays }}</td>
+
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    *hasPermission="'delete'"
+                    (click)="Delete(data.id)"
+                  >
+                    <i class="bx bxs-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-md-between align-items-md-center">
+          <pagination
+            [items]="items"
+            (changePage)="onChangePage($event)"
+          ></pagination>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+<form [formGroup]="MasterForm">
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create Leave Menagement
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label">Worker:</label>
+            <div class="position-relative">
+              <input
+                type="text"
+                hidden
+                class="form-control"
+                formControlName="WORKER"
+              />
+
+              <input
+                type="text"
+                class="form-control"
+                (keyup)="LoadWorker()"
+                placeholder="Enter Worker Name..."
+                formControlName="WORKERNAME"
+                [disabled]="MasterForm.controls['WORKERNAME'].disabled"
+              />
+
+              <ul
+                *ngIf="
+                  filteredSuppliers.length &&
+                  MasterForm.controls['WORKERNAME'].enabled
+                "
+                class="list-group position-absolute w-100 shadow mt-1"
+                style="z-index: 1000; max-height: 200px; overflow-y: auto"
+              >
+                <li
+                  *ngFor="let supplier of filteredSuppliers"
+                  (click)="onSelectSupplier(supplier)"
+                  class="list-group-item list-group-item-action"
+                  style="cursor: pointer"
+                >
+                  {{ supplier.label }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Leave Type:</label
+            >
+            <select
+              class="form-select"
+              (change)="LeaveGet()"
+              formControlName="LEAVETYPEID"
+            >
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let x of leavelist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-0" style="display: flex">
+            <span style="color: red">{{ leavetaken }}</span>
+            <span style="color: red; padding-left: 10px">{{
+              leaveremening
+            }}</span>
+          </div>
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label">Division:</label>
+            <select class="form-select" formControlName="DIVISIONID">
+              <option [value]="0">--Select--</option>
+              <option
+                *ngFor="let division of divisionlist"
+                [value]="division.id"
+              >
+                {{ division.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">From Date:</label>
+            <input
+              type="date"
+              class="form-control"
+              formControlName="FROMDATE"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">To Date:</label>
+            <input type="date" class="form-control" formControlName="TODATE" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Create()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="EMasterForm">
+  <input type="hidden" formControlName="EID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdropEdit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-pencil"></i> Edit LeaveMenagement
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label">Worker:</label>
+            <select class="form-select" formControlName="EWORKER">
+              <option [value]="">--Select--</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Date:</label>
+            <input type="date" class="form-control" formControlName="EDATE" />
+          </div>
+
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Leave Type:</label
+            >
+            <select class="form-select" formControlName="ELEAVETYPEID">
+              <option [value]="">--Select--</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" class="btn btn-success">
+            <i class="bx bx-check"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

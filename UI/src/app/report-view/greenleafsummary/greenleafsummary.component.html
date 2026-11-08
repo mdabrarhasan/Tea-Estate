@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card gls-card">
+      <!-- Header -->
+      <div class="card-header gls-header">
+        <h5 class="card-title mb-0 gls-title">
+          <i class="bx bxs-leaf"></i> Green Leaf Summary
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <!-- ================= TOP BAR: date range + actions ================= -->
+        <div class="gls-topbar" [formGroup]="DateForm">
+          <div class="gls-dates">
+            <div class="gls-date-field">
+              <label>From</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="FROMDATE"
+              />
+            </div>
+            <div class="gls-date-field">
+              <label>To</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="TODATE"
+              />
+            </div>
+          </div>
+
+          <div class="gls-actions">
+            <button
+              type="button"
+              class="btn gls-btn-generate"
+              (click)="generate()"
+            >
+              <i class="bx bx-play-circle"></i> Generate
+            </button>
+            <button
+              type="button"
+              class="btn gls-btn-clear"
+              (click)="clearAll()"
+            >
+              <i class="bx bx-eraser"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= BODY: left rail + center panel ================= -->
+        <div class="gls-body">
+          <!-- LEFT RAIL -->
+          <div class="gls-rail">
+            <button
+              *ngFor="let c of categories"
+              type="button"
+              class="gls-rail-btn"
+              [class.active]="c.key === activeKey"
+              (click)="selectCategory(c.key)"
+            >
+              <span class="gls-rail-label">
+                <i class="bx {{ c.icon }}"></i> {{ c.label }}
+              </span>
+              <span class="gls-badge" *ngIf="selectedCount(c.key) > 0">
+                {{ selectedCount(c.key) }}
+              </span>
+            </button>
+          </div>
+
+          <!-- CENTER PANEL -->
+          <div class="gls-panel">
+            <!-- prompt shown when no category is selected -->
+            <div class="gls-state gls-panel-empty" *ngIf="!active">
+              <i class="bx bx-left-arrow-alt"></i>
+              Select a filter on the left to load its options.
+            </div>
+
+            <ng-container *ngIf="active">
+              <!-- panel toolbar -->
+              <div class="gls-panel-head">
+                <div class="gls-panel-title">
+                  <i class="bx {{ active.icon }}"></i> {{ active.label }}
+                </div>
+                <div class="gls-panel-search">
+                  <i class="bx bx-search"></i>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search {{ active.label | lowercase }}..."
+                    [(ngModel)]="filterText"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+              </div>
+
+              <!-- select-all bar -->
+              <div class="gls-selectall" *ngIf="visibleItems.length > 0">
+                <label class="gls-check">
+                  <input
+                    type="checkbox"
+                    [checked]="allVisibleChecked()"
+                    (change)="toggleAllVisible()"
+                  />
+                  <span>Select all {{ visibleItems.length }} shown</span>
+                </label>
+              </div>
+
+              <!-- list -->
+              <div class="gls-list">
+                <div class="gls-state" *ngIf="active.loading">
+                  <i class="bx bx-loader-alt bx-spin"></i> Loading
+                  {{ active.label | lowercase }}...
+                </div>
+
+                <div
+                  class="gls-state"
+                  *ngIf="
+                    !active.loading &&
+                    active.loaded &&
+                    visibleItems.length === 0
+                  "
+                >
+                  <i class="bx bx-folder-open"></i>
+                  No {{ active.label | lowercase }} found.
+                </div>
+
+                <label
+                  class="gls-check gls-row"
+                  *ngFor="let item of visibleItems"
+                  [class.checked]="isChecked(item.id)"
+                >
+                  <input
+                    type="checkbox"
+                    [checked]="isChecked(item.id)"
+                    (change)="toggle(item.id)"
+                  />
+                  <span>{{ item.name }}</span>
+                </label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <!-- end gls-body -->
+      </div>
+    </div>
+  </div>
+</div>

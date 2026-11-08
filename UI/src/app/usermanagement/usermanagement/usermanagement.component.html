@@ -1,0 +1,462 @@
+<div class="row">
+  <div class="col-sm-12">
+    <!-- <h5 class="mb-3">Worker Management</h5> -->
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">
+          <i class="bx bxs-leaf"></i> User Management
+        </h4>
+      </div>
+      <div class="card-body">
+        <ul
+          ngbNav
+          #BorderTop="ngbNav"
+          [activeId]="1"
+          class="nav nav-tabs nav-justified nav-border-top nav-border-top-info mb-3"
+        >
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>
+              <i class="ri-home-5-line align-middle me-1"></i> Create User
+            </a>
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop"
+                          >
+                            <i
+                              class="bx bx-plus-circle align-middle fs-16 me-2"
+                            ></i
+                            >Create New
+                          </button>
+                        </div>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                          <div class="search-box">
+                            <input
+                              type="text"
+                              class="form-control search"
+                              placeholder="Search..."
+                            />
+                            <i class="ri-search-line search-icon"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+
+                      <div class="table-responsive">
+                        <table class="table table-gridjs">
+                          <thead style="background-color: rgb(243, 243, 249)">
+                            <tr>
+                              <th
+                                style="width: 20%"
+                                class="sort"
+                                data-sort="name"
+                              >
+                                User Name
+                              </th>
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="code"
+                              >
+                                Email
+                              </th>
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="code"
+                              >
+                                Contact Number
+                              </th>
+                              <th
+                                style="width: 10%"
+                                class="sort"
+                                data-sort="code"
+                              >
+                                User Type
+                              </th>
+                              <th
+                                style="width: 10%"
+                                class="sort"
+                                data-sort="name"
+                              >
+                                Division
+                              </th>
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="name"
+                              >
+                                Book
+                              </th>
+
+                              <th style="width: 10%">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let data of griddata">
+                              <td>{{ data.username }}</td>
+                              <td>{{ data.emailid }}</td>
+                              <td>{{ data.contactnumber }}</td>
+                              <td>{{ data.usertypename }}</td>
+                              <td>{{ data.division }}</td>
+                              <td>{{ data.book }}</td>
+                              <td>
+                                <button
+                                  type="button"
+                                  class="btn btn-success"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#staticBackdropEdit"
+                                  (click)="GetDataByID(data.id)"
+                                >
+                                  <i class="bx bx-pencil"></i>
+                                </button>
+                                &nbsp;
+                                <button
+                                  type="button"
+                                  class="btn btn-warning"
+                                  (click)="Delete(data.id)"
+                                >
+                                  <i class="bx bxs-trash-alt"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div
+                        class="row justify-content-md-between align-items-md-center"
+                      >
+                        <div class="col col-sm-6">
+                          <div
+                            class="dataTables_info mb-2"
+                            id="tickets-table_info"
+                            role="status"
+                            aria-live="polite"
+                          ></div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                          <div
+                            class="text-sm-right float-end gridjs-pagination"
+                          ></div>
+                        </div>
+                        <!-- End Pagination -->
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+                <!-- end col -->
+              </div>
+              <!-- end row -->
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>
+              <i class="ri-user-line me-1 align-middle"></i> User Type
+            </a>
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            data-bs-toggle="modal"
+                            data-bs-target=""
+                          >
+                            <i
+                              class="bx bx-plus-circle align-middle fs-16 me-2"
+                            ></i
+                            >Create New
+                          </button>
+                        </div>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                          <div class="search-box">
+                            <input
+                              type="text"
+                              class="form-control search"
+                              placeholder="Search..."
+                            />
+                            <i class="ri-search-line search-icon"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+
+                      <div class="table-responsive">
+                        <table class="table table-gridjs">
+                          <thead style="background-color: rgb(243, 243, 249)">
+                            <tr>
+                              <th
+                                style="width: 50%"
+                                class="sort"
+                                data-sort="name"
+                              >
+                                Group
+                              </th>
+                              <th
+                                style="width: 10%"
+                                class="sort"
+                                data-sort="code"
+                              >
+                                Retirement
+                              </th>
+                              <th style="width: 10%">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                      <div
+                        class="row justify-content-md-between align-items-md-center"
+                      >
+                        <div class="col col-sm-6">
+                          <div
+                            class="dataTables_info mb-2"
+                            id="tickets-table_info"
+                            role="status"
+                            aria-live="polite"
+                          ></div>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="col col-sm-6">
+                          <div
+                            class="text-sm-right float-end gridjs-pagination"
+                          ></div>
+                        </div>
+                        <!-- End Pagination -->
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+                <!-- end col -->
+              </div>
+              <!-- end row -->
+            </ng-template>
+          </li>
+        </ul>
+        <div class="tab-content text-muted">
+          <div [ngbNavOutlet]="BorderTop"></div>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+  </div>
+  <!--end col-->
+</div>
+<form [formGroup]="MasterForm">
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create User
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >User Name:</label
+              >
+              <input type="text" class="form-control" formControlName="Name" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Email:</label>
+              <input type="text" class="form-control" formControlName="Email" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Contact Number:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Contact"
+              />
+            </div>
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >User Type:</label
+              >
+              <select class="form-select" formControlName="Usertype">
+                <option [value]="0">--Select--</option>
+                <option *ngFor="let x of usertypelist" [value]="x.usertypeid">
+                  {{ x.username }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Division:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Division"
+              />
+            </div>
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Book:</label>
+              <input type="text" class="form-control" formControlName="Book" />
+            </div>
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">LogIn ID:</label>
+              <input type="text" class="form-control" formControlName="Login" />
+            </div>
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Password:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Password"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="UserCreate()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<form [formGroup]="EMasterForm">
+  <div
+    class="modal fade"
+    id="staticBackdropEdit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bx bx-pencil"></i> Edit User</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label class="col-form-label">User Name:</label>
+              <input type="text" class="form-control" formControlName="EName" />
+            </div>
+            <div class="col-sm-12">
+              <label class="col-form-label">Email:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EEmail"
+              />
+            </div>
+            <div class="col-sm-12">
+              <label class="col-form-label">Contact Number:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EContact"
+              />
+            </div>
+            <div class="col-sm-12">
+              <label class="col-form-label">User Type:</label>
+              <select class="form-select" formControlName="EUsertype">
+                <option [value]="0">--Select--</option>
+                <option *ngFor="let x of usertypelist" [value]="x.usertypeid">
+                  {{ x.username }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-12">
+              <label class="col-form-label">Division:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EDivision"
+              />
+            </div>
+            <div class="col-sm-12">
+              <label class="col-form-label">Book:</label>
+              <input type="text" class="form-control" formControlName="EBook" />
+            </div>
+            <div class="col-sm-12">
+              <label class="col-form-label">LogIn ID:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="ELogin"
+              />
+            </div>
+            <div class="col-sm-12">
+              <label class="col-form-label">Password:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EPassword"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Update()" class="btn btn-success">
+            <i class="bx bx-check"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,59 @@
+<div class="card ribbon-box border shadow-none mb-lg-0">
+  <div class="card-body text-muted">
+    <div class="ribbon-three ribbon-three-success">
+      <span
+        style="font-family: calibri; font-weight: bolder; letter-spacing: 3px"
+        >Manual Entry</span
+      >
+    </div>
+    <br />
+    <br />
+    <br />
+    <form [formGroup]="MasterForm">
+      <div class="row">
+        <div class="col-md-3">
+          <label>Date</label>
+          <input
+            type="date"
+            class="form-control"
+            formControlName="PLUCKINGDATE"
+          />
+        </div>
+        <div class="col-md-3">
+          <label> Type</label>
+          <select class="form-select" formControlName="TYPEID">
+            <option [value]="">--Select--</option>
+            <option value="1">PLUCKING</option>
+            <option value="2">NON-Plucking</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="">File</label>
+          <input
+            class="form-control"
+            type="file"
+            (change)="onFileChange($event)"
+          />
+        </div>
+        <div class="col-md-3">
+          <button
+            style="margin-top: 25px"
+            type="button"
+            *hasPermission="'insert'"
+            [disabled]="isUploading"
+            (click)="uploadExcel()"
+            class="btn btn-success"
+          >
+            <i
+              class="bx"
+              [ngClass]="isUploading ? 'bx-loader-alt bx-spin' : 'bx-check'"
+            ></i>
+            {{ isUploading ? "Uploading..." : "Upload" }}
+          </button>
+        </div>
+
+        <br /><br />
+      </div>
+    </form>
+  </div>
+</div>

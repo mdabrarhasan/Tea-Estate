@@ -1,0 +1,420 @@
+<form [formGroup]="MasterForm">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <i class="bx bxs-leaf"></i> Non Daily Plucking
+          </h4>
+        </div>
+        <!-- end card header -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-11">
+              <div class="row">
+                <div class="col-sm-3">
+                  <label for="customer-name" class="col-form-label"
+                    >Date:</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="PLUCKINGDATE"
+                  />
+                </div>
+                <!-- <div class="col-sm-3">
+                            <label for="message-text" class="col-form-label">kamjari:</label>
+                            <select class="form-select" formControlName="KAMJARIID">
+                              <option [value]="">--Select--</option>
+                              <option *ngFor="let x of kamjarilist" [value]="x.id">
+                                  {{x.name}}
+                              </option>
+                          </select>
+        
+                        </div> -->
+                <div class="col-sm-2">
+                  <label for="customer-name" class="col-form-label"
+                    >Book:</label
+                  >
+                  <select class="form-select" formControlName="BOOKID">
+                    <option [value]="0">--All--</option>
+                    <option *ngFor="let x of booklist" [value]="x.id">
+                      {{ x.name }}
+                    </option>
+                  </select>
+                </div>
+                <!-- <div class="col-sm-3">
+                            <label for="customer-name" hidden class="col-form-label">Operator:</label>
+                                                          <select class="form-select" hidden formControlName="OPERATORID">
+                                                            <option [value]="">--Select--</option>
+                                                            <option *ngFor="let x of operatorlist" [value]="x.id">
+                                                                {{x.name}}
+                                                            </option>
+                                                        </select>
+                                         
+                        </div> -->
+                <div class="col-sm-2">
+                  <button
+                    type="button"
+                    style="margin-top: 36px"
+                    (click)="Fetch()"
+                    class="btn btn-info bg-gradient waves-effect waves-light"
+                  >
+                    <i class="bx bx-down-arrow-circle"></i> Fetch
+                  </button>
+                </div>
+                <div class="col-sm-2">
+                  <button
+                    type="button"
+                    style="margin-top: 36px"
+                    (click)="Report()"
+                    class="btn btn-info bg-gradient waves-effect waves-light"
+                  >
+                    <i class="bx bx-down-arrow-circle"></i> Report
+                  </button>
+                </div>
+              </div>
+              <!-- <div class="row"> -->
+              <!-- <div class="col-sm-3">
+                            <label for="customer-name" hidden class="col-form-label">Device:</label>
+                                                          <select class="form-select" hidden formControlName="DEVICEID">
+                                                            <option [value]="">--Select--</option>
+                                                            <option *ngFor="let x of devicelist" [value]="x.id">
+                                                                {{x.name}}
+                                                            </option>
+                                                        </select>
+                                          
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="customer-name" hidden class="col-form-label">Batch:</label>
+                                                          <select class="form-select" hidden formControlName="BATCHID">
+                                                            <option [value]="">--Select--</option>
+                                                            <option *ngFor="let x of batchlist" [value]="x.id">
+                                                                {{x.name}}
+                                                            </option>
+                                                        </select>
+                                       
+                        </div>
+                          <div class="col-sm-3">
+                            <label for="customer-name" hidden class="col-form-label">Division:</label>
+                                                          <select class="form-select" hidden formControlName="DIVISIONID">
+                                                            <option [value]="">--Select--</option>
+                                                            <option *ngFor="let x of divisionlist" [value]="x.id">
+                                                                {{x.name}}
+                                                            </option>
+                                                        </select>
+                                          
+                          </div> -->
+              <!-- <div class="col-sm-3">
+                            <label for="customer-name" hidden class="col-form-label">Records:</label>
+                                                          <select class="form-select" hidden formControlName="WEIGHMENTID">
+                                                            <option [value]="">--Select--</option>
+                                                            <option [value]="1">Pending</option>
+                                                            
+                                                        </select>
+                                          
+                          </div> -->
+              <!-- </div> -->
+            </div>
+          </div>
+          <br />
+          <!-- <div class="row card-header" style=" color:rgb(21, 153, 135);font-weight: bolder;">
+               <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6"> -->
+          <!-- <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fs-md text-primary mb-0" style="color:teal"><i class="ri-shopping-cart-fill align-middle me-2"></i>
+                        Total Employee Attendent</h5>
+                   
+                </div>
+                <ul class="list-group mb-6">
+
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                      <div class="row">
+                        <div class="col-sm-6">
+                            
+                        </div>
+                          <h6 class="my-0">Full</h6>
+                      </div>
+                      <span class="text-success">{{full}}</span>
+                    </li>
+        
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                      <div class="text-success">
+                          <h6 class="my-0">Full(+)</h6>
+                      </div>
+                      <span class="text-success">{{fullplus}}</span>
+                  </li>
+                 
+                
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">Half</h6>
+
+                        </div>
+                        <span class="text-success">{{half}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">Extra</h6>
+                        </div>
+                        <span class="text-success">{{extra}}</span>
+                    </li>
+                    
+                </ul> -->
+          <!-- </div> 
+            </div>-->
+        </div>
+        <!-- end card-body -->
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+</form>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4 class="card-title mb-0">
+              <i class="bx bxs-leaf"></i> List of Non Plucking Employee
+            </h4>
+          </div>
+          <div class="col-sm-6" style="text-align: right">
+            <h6 style="color: green; font-weight: bolder" class="bx bxs-leaf">
+              {{ TotaAttStatus }}
+            </h6>
+          </div>
+        </div>
+      </div>
+      <!-- end card header -->
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <button
+              type="button"
+              [disabled]="isDisabled"
+              (click)="Save()"
+              class="btn btn-success"
+            >
+              <i class="bx bxs-check-circle"></i> Save Attendence
+            </button>
+          </div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <div class="search-box">
+              <input
+                type="text"
+                class="form-control search"
+                placeholder="Search..."
+                [(ngModel)]="searchText"
+                (input)="filterData()"
+              />
+              <i class="ri-search-line search-icon"></i>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="table-responsive">
+          <table class="table table-gridjs">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th><input type="checkbox" (change)="toggleAll($event)" /></th>
+                <th>
+                  <a (click)="sortBy('name')">Name {{ sortIcon("name") }}</a>
+                </th>
+                <th>
+                  <a (click)="sortBy('batch')">BATCH {{ sortIcon("batch") }}</a>
+                </th>
+                <th>
+                  <a (click)="sortBy('kamjari')"
+                    >KAMJARI {{ sortIcon("kamjari") }}</a
+                  >
+                </th>
+                <th>
+                  <a (click)="sortBy('dbly')">SECTION {{ sortIcon("dbly") }}</a>
+                </th>
+
+                <th>
+                  <a (click)="sortBy('section')"
+                    >HAZRI {{ sortIcon("section") }}</a
+                  >
+                </th>
+                <!-- <th><a (click)="sortBy('hazri')">DBLY BATCH {{sortIcon('hazri')}}</a></th> -->
+                <th>
+                  <a (click)="sortBy('dblybatch')"
+                    >DBLY KAMJARI {{ sortIcon("dblybatch") }}</a
+                  >
+                </th>
+                <th>
+                  <a (click)="sortBy('dblykamjari')"
+                    >DBLY SECTION {{ sortIcon("dblykamjari") }}</a
+                  >
+                </th>
+                <th><a>DBLY</a></th>
+                <th>
+                  <a (click)="sortBy('dbly')"
+                    >DBLY TYPE {{ sortIcon("dbly") }}</a
+                  >
+                </th>
+                <th style="width: 5%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of pageOfItems">
+                <td><input type="checkbox" [(ngModel)]="data.isselected" /></td>
+                <td
+                  [ngStyle]="{
+                    'background-color':
+                      data.presentLeaveStatus == 1 ? 'orange' : 'transparent',
+                  }"
+                >
+                  {{ data.name }}
+                </td>
+                <td>{{ data.bookempno }}</td>
+                <td>{{ data.kamjari }}</td>
+                <td hidden>{{ data.dbly }}</td>
+                <td hidden>{{ data.id }}</td>
+                <td>{{ data.section }}</td>
+                <td>{{ data.hazri }}</td>
+                <!-- <td>{{data.dblybatch}}</td> -->
+                <td>{{ data.dblykamjari }}</td>
+                <td>{{ data.dblysection }}</td>
+                <td>{{ data.dbly }}</td>
+                <td>{{ data.dblytype }}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-info bg-gradient waves-effect waves-light"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModalFullscreenLg"
+                    *hasPermission="'print'"
+                    (click)="fullLGModal(fullLgDataModal)"
+                    (click)="View(data.id, data.pluckeddate)"
+                  >
+                    <i class="bx bx-chevrons-up"></i>
+                  </button>
+                  &nbsp;
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-md-between align-items-md-center">
+          <pagination
+            [items]="items"
+            (changePage)="onChangePage($event)"
+          ></pagination>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+<ng-template #fullLgDataModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalFullscreenLgLabel">
+        Activity Details
+      </h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="table-responsive">
+        <table class="table table-gridjs">
+          <thead style="background-color: rgb(243, 243, 249)">
+            <tr>
+              <th style="width: 10%">Batch</th>
+              <th style="width: 10%">Shift</th>
+              <th style="width: 10%">Time</th>
+              <th style="width: 10%">Device</th>
+              <th style="width: 10%">Section</th>
+              <th style="width: 10%">Kamjari</th>
+              <th style="width: 10%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of pulckinglist">
+              <td>{{ data.batchname }}</td>
+              <!-- <td>{{data.teamname}}</td> -->
+              <td>
+                <select
+                  class="form-select"
+                  [(ngModel)]="data.teamid"
+                  name="shiftid_{{ data.id }}"
+                >
+                  <option [value]="">--Select--</option>
+                  <option *ngFor="let x of shiftilist" [value]="x.id">
+                    {{ x.name }}
+                  </option>
+                </select>
+              </td>
+              <td>{{ data.time }}</td>
+              <td>{{ data.device }}</td>
+              <td>{{ data.section }}</td>
+              <td>
+                <select
+                  class="form-select"
+                  [(ngModel)]="data.kamjariid"
+                  name="kamjariid_{{ data.id }}"
+                >
+                  <option [value]="">--Select--</option>
+                  <option *ngFor="let x of kamjarilist" [value]="x.id">
+                    {{ x.name }}
+                  </option>
+                </select>
+              </td>
+              <!-- <td><button class="btn btn-info bg-gradient waves-effect waves-light" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2" (click)="bothcollapse.toggle()"><i class="bx bxs-zoom-in"></i></button></td> -->
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  *hasPermission="'delete'"
+                  (click)="Delete(data.id)"
+                >
+                  <i class="bx bxs-trash-alt"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  style="margin-left: 4px"
+                  *hasPermission="'update'"
+                  (click)="KamjariUpdate(data)"
+                >
+                  <i class="bx bx-pencil"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-md-between align-items-md-center">
+        <!-- <pagination [items]="items" (changePage)="onChangePage($event)"></pagination> -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a
+        href="javascript:void(0);"
+        class="btn btn-link link-success fw-medium"
+        data-bs-dismiss="modal"
+        (click)="modal.close('Close click')"
+        ><i class="ri-close-line me-1 align-middle"></i> Close</a
+      >
+      <!-- <button type="button" class="btn btn-primary" (click)="WorkerManagementCreate()" class="btn btn-success"><i class="bx bx-check"></i>Save changes</button> -->
+    </div>
+  </div>
+</ng-template>

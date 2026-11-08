@@ -1,0 +1,302 @@
+/* ============================================================
+   Daily Attendance Details — Tea Link themed report page
+   Primary teal: #22A395  (rgb(34,163,145))
+   ============================================================ */
+
+.dad-card {
+  --dad-teal: #22a395;
+  --dad-teal-dark: #1b8375;
+  --dad-teal-tint: #eaf7f5;
+  --dad-line: #e6e9ef;
+  --dad-surface: #f7f9fb;
+  --dad-text: #384250;
+  --dad-muted: #8b95a5;
+}
+
+/* ---------- header ---------- */
+.dad-header {
+  background: #fff;
+  border-bottom: 2px solid var(--dad-teal);
+}
+.dad-title {
+  font-family: calibri;
+  color: var(--dad-teal);
+  letter-spacing: 0.2px;
+}
+.dad-title i {
+  margin-right: 4px;
+}
+
+/* ---------- top bar ---------- */
+.dad-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 4px 2px 16px;
+  border-bottom: 1px solid var(--dad-line);
+  margin-bottom: 16px;
+}
+.dad-dates {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.dad-date-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--dad-muted);
+  margin-bottom: 4px;
+}
+.dad-date-field .form-control {
+  min-width: 170px;
+  border-color: var(--dad-line);
+}
+.dad-date-field .form-control:focus {
+  border-color: var(--dad-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.18);
+}
+
+.dad-actions {
+  display: flex;
+  gap: 10px;
+}
+.dad-btn-generate,
+.dad-btn-clear {
+  min-width: 120px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.dad-btn-generate {
+  background: var(--dad-teal);
+  border: 1px solid var(--dad-teal);
+  color: #fff;
+}
+.dad-btn-generate:hover {
+  background: var(--dad-teal-dark);
+  border-color: var(--dad-teal-dark);
+  color: #fff;
+}
+.dad-btn-clear {
+  background: #fff;
+  border: 1px solid var(--dad-line);
+  color: var(--dad-text);
+}
+.dad-btn-clear:hover {
+  background: var(--dad-surface);
+  border-color: var(--dad-muted);
+}
+
+/* ---------- body: rail + panel ---------- */
+.dad-body {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* ---------- left rail ---------- */
+.dad-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dad-rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--dad-line);
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  color: var(--dad-text);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.dad-rail-btn:hover {
+  background: var(--dad-surface);
+}
+.dad-rail-btn.active {
+  background: var(--dad-teal-tint);
+  border-color: var(--dad-teal);
+  border-left-color: var(--dad-teal);
+  color: var(--dad-teal-dark);
+  font-weight: 600;
+}
+.dad-rail-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.dad-rail-label i {
+  font-size: 1.05rem;
+}
+.dad-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--dad-teal);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- center panel ---------- */
+.dad-panel-empty {
+  margin: auto;
+}
+.dad-panel {
+  border: 1px solid var(--dad-line);
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+.dad-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--dad-surface);
+  border-bottom: 1px solid var(--dad-line);
+  flex-wrap: wrap;
+}
+.dad-panel-title {
+  font-weight: 600;
+  color: var(--dad-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dad-panel-title i {
+  color: var(--dad-teal);
+}
+.dad-panel-search {
+  position: relative;
+  flex: 1;
+  max-width: 280px;
+}
+.dad-panel-search i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dad-muted);
+}
+.dad-panel-search .form-control {
+  padding-left: 32px;
+  border-color: var(--dad-line);
+}
+.dad-panel-search .form-control:focus {
+  border-color: var(--dad-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.18);
+}
+
+.dad-selectall {
+  padding: 8px 14px;
+  border-bottom: 1px dashed var(--dad-line);
+  background: #fff;
+}
+
+/* ---------- list ---------- */
+.dad-list {
+  padding: 6px 0;
+  overflow-y: auto;
+  max-height: 460px;
+  flex: 1;
+}
+
+.dad-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  cursor: pointer;
+  color: var(--dad-text);
+  user-select: none;
+}
+.dad-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--dad-teal);
+  cursor: pointer;
+}
+.dad-selectall .dad-check span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--dad-muted);
+}
+
+.dad-row {
+  padding: 9px 14px;
+  border-bottom: 1px solid #f1f3f7;
+  transition: background-color 0.12s ease;
+}
+.dad-row:hover {
+  background: var(--dad-surface);
+}
+.dad-row.checked {
+  background: var(--dad-teal-tint);
+}
+.dad-row span {
+  font-size: 0.92rem;
+}
+
+/* ---------- states ---------- */
+.dad-state {
+  padding: 28px 14px;
+  text-align: center;
+  color: var(--dad-muted);
+  font-size: 0.9rem;
+}
+.dad-state i {
+  font-size: 1.1rem;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 768px) {
+  .dad-body {
+    grid-template-columns: 1fr;
+  }
+  .dad-rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .dad-rail-btn {
+    width: auto;
+    flex: 1 1 40%;
+  }
+  .dad-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dad-actions {
+    justify-content: flex-end;
+  }
+}

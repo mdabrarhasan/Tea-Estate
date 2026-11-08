@@ -1,0 +1,384 @@
+<form [formGroup]="MasterForm">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <i class="bx bxs-leaf"></i> Daily Plucking
+          </h4>
+        </div>
+        <!-- end card header -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-4">
+                  <label for="customer-name" class="col-form-label"
+                    >Date:</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="PLUCKINGDATE"
+                  />
+                </div>
+
+                <div class="col-sm-4">
+                  <label for="customer-name" class="col-form-label"
+                    >Book:</label
+                  >
+                  <select class="form-select" formControlName="BOOKID">
+                    <option [value]="0">--All--</option>
+                    <option *ngFor="let x of booklist" [value]="x.id">
+                      {{ x.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-sm-2">
+                  <button
+                    type="button"
+                    style="margin-top: 36px"
+                    (click)="Fetch()"
+                    class="btn btn-info bg-gradient waves-effect waves-light"
+                  >
+                    <i class="bx bx-down-arrow-circle"></i> Fetch
+                  </button>
+                </div>
+                <div class="col-sm-2">
+                  <button
+                    type="button"
+                    style="margin-top: 36px"
+                    (click)="Report()"
+                    class="btn btn-info bg-gradient waves-effect waves-light"
+                  >
+                    <i class="bx bx-down-arrow-circle"></i> Report
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div
+            class="row card-header"
+            style="color: rgb(21, 153, 135); font-weight: bolder"
+          >
+            <div class="col-sm-6">
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <h5 style="color: teal">
+                  <i class="ri-shopping-cart-fill align-middle me-2"></i> Total
+                  Weighment
+                </h5>
+                <span class="badge bg-success rounded-pill">{{ tov }}</span>
+              </div>
+              <ul class="list-group mb-3">
+                <li
+                  class="list-group-item d-flex justify-content-between bg-light"
+                >
+                  <div>
+                    <h6 class="my-0">Weighment 1 :</h6>
+                  </div>
+                  <span class="text-success">{{ wmnt1 }}</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between lh-sm"
+                >
+                  <div>
+                    <h6 class="my-0">Weighment 2:</h6>
+                  </div>
+                  <span class="text-success">{{ wmnt2 }}</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between lh-sm"
+                >
+                  <div>
+                    <h6 class="my-0">Weighment 3:</h6>
+                  </div>
+                  <span class="text-success">{{ wmnt3 }}</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between bg-light"
+                >
+                  <div class="text-success">
+                    <div>
+                      <h6 class="my-0">Weighment 4:</h6>
+                    </div>
+                  </div>
+                  <span class="text-success">{{ wmnt4 }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-sm-6">
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <h5 style="color: teal">
+                  <i class="ri-shopping-cart-fill align-middle me-2"></i>
+                  Employee Attendance
+                </h5>
+                <span class="badge bg-success rounded-pill">{{ full }}</span>
+              </div>
+              <ul class="list-group mb-6">
+                <li
+                  class="list-group-item d-flex justify-content-between bg-light"
+                >
+                  <div class="row">
+                    <div class="col-sm-6"></div>
+                    <h6 class="my-0">Full</h6>
+                  </div>
+                  <span class="text-success">{{ full }}</span>
+                </li>
+
+                <li
+                  class="list-group-item d-flex justify-content-between lh-sm"
+                >
+                  <div class="text-success">
+                    <h6 class="my-0">Full(+)</h6>
+                  </div>
+                  <span class="text-success">{{ fullplus }}</span>
+                </li>
+
+                <li
+                  class="list-group-item d-flex justify-content-between lh-sm"
+                >
+                  <div>
+                    <h6 class="my-0">Half</h6>
+                  </div>
+                  <span class="text-success">{{ half }}</span>
+                </li>
+                <li
+                  class="list-group-item d-flex justify-content-between bg-light"
+                >
+                  <div>
+                    <h6 class="my-0">Extra</h6>
+                  </div>
+                  <span class="text-success">{{ extra }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- end card-body -->
+      </div>
+      <!-- end card -->
+    </div>
+    <!-- end col -->
+  </div>
+  <!-- end row -->
+</form>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-6">
+            <h4 class="card-title mb-0">
+              <i class="bx bxs-leaf"></i> List of Employee
+            </h4>
+          </div>
+        </div>
+      </div>
+      <!-- end card header -->
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <button type="button" class="btn btn-success" (click)="Save()">
+              <i class="bx bxs-check-circle"></i> Save Attendence
+            </button>
+          </div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <div class="search-box">
+              <input
+                type="text"
+                class="form-control search"
+                placeholder="Search..."
+                [(ngModel)]="searchText"
+                (input)="filterData()"
+              />
+              <i class="ri-search-line search-icon"></i>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <div class="table-responsive">
+          <table class="table table-gridjs">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th><input type="checkbox" (change)="toggleAll($event)" /></th>
+                <th style="width: 20%">
+                  <a (click)="sortBy('name')">Name {{ sortIcon("name") }}</a>
+                </th>
+                <th style="width: 20%">
+                  <a (click)="sortBy('kamjaritype')"
+                    >KAMJARI {{ sortIcon("kamjaritype") }}</a
+                  >
+                </th>
+                <th style="width: 15%">
+                  <a (click)="sortBy('bookempno')"
+                    >BOOK/EMP NO {{ sortIcon("bookempno") }}</a
+                  >
+                </th>
+                <th style="width: 10%">
+                  <a (click)="sortBy('shift')">SHIFT {{ sortIcon("shift") }}</a>
+                </th>
+                <th style="width: 5%">
+                  <a (click)="sortBy('total')">TOTAL {{ sortIcon("total") }}</a>
+                </th>
+                <th style="width: 10%">
+                  <a (click)="sortBy('attendent')"
+                    >ATTD {{ sortIcon("attendent") }}</a
+                  >
+                </th>
+                <th style="width: 10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of pageOfItems">
+                <td>
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="data.isselected"
+                    (change)="onSelectionChange()"
+                  />
+                </td>
+                <td
+                  [ngStyle]="{
+                    'background-color':
+                      data.presentLeaveStatus == 1 ? 'orange' : 'transparent',
+                  }"
+                >
+                  {{ data.name }}
+                </td>
+                <td>{{ data.kamjaritype }}</td>
+                <td>{{ data.bookempno }}</td>
+                <td>{{ data.shift }}</td>
+                <td
+                  [ngStyle]="{
+                    'background-color': data.countid == 1 ? 'red' : '',
+                    color: data.countid == 1 ? 'white' : '',
+                  }"
+                >
+                  {{ data.total }}
+                </td>
+                <td>{{ data.attendent }}</td>
+
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-info bg-gradient waves-effect waves-light"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModalFullscreenLgLabel"
+                    *hasPermission="'print'"
+                    (click)="fullLGModal(fullLgDataModal)"
+                    (click)="View(data.id, data.pluckeddate)"
+                  >
+                    <i class="bx bx-chevrons-up"></i>
+                  </button>
+                  &nbsp;
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-md-between align-items-md-center">
+          <pagination
+            [items]="items"
+            (changePage)="onChangePage($event)"
+          ></pagination>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+<ng-template #fullLgDataModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalFullscreenLgLabel">
+        Activity Details
+      </h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="table-responsive">
+        <table class="table table-gridjs">
+          <thead style="background-color: rgb(243, 243, 249)">
+            <tr>
+              <th style="width: 10%">Weighment</th>
+              <th style="width: 10%">Time</th>
+              <th style="width: 10%">Device</th>
+              <th style="width: 20%">Section</th>
+              <th style="width: 10%">Qty</th>
+              <th style="width: 10%">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of pulckinglist">
+              <td>
+                <select
+                  class="form-select form-select-sm"
+                  [(ngModel)]="data.weighmentid"
+                >
+                  <option [value]="1">1</option>
+                  <option [value]="2">2</option>
+                  <option [value]="3">3</option>
+                  <option [value]="4">4</option>
+                </select>
+              </td>
+              <td>{{ data.time }}</td>
+              <td>{{ data.device }}</td>
+              <td>{{ data.section }}</td>
+              <td>{{ data.qty }}</td>
+              <td class="d-flex gap-2">
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  *hasPermission="'update'"
+                  (click)="updateWeighment(data)"
+                  title="Swap Weighment (1↔2)"
+                >
+                  <i class="bx bx-refresh"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-warning btn-sm"
+                  *hasPermission="'delete'"
+                  (click)="Delete(data.id)"
+                  title="Delete"
+                >
+                  <i class="bx bxs-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a
+        href="javascript:void(0);"
+        class="btn btn-link link-success fw-medium"
+        data-bs-dismiss="modal"
+        (click)="modal.close('Close click')"
+        ><i class="ri-close-line me-1 align-middle"></i> Close</a
+      >
+    </div>
+  </div>
+</ng-template>

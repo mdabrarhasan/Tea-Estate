@@ -1,0 +1,518 @@
+<div class="report-container">
+
+    <div class="card shadow-sm border-0 report-card">
+
+
+        <!-- HEADER -->
+        <div class="card-header report-header">
+
+            <h5 class="card-title mb-0">
+                <i class="bx bxs-leaf"></i>
+                Transaction Report
+            </h5>
+
+        </div>
+
+
+        <!-- BODY -->
+        <div class="card-body report-body">
+
+
+            <form [formGroup]="form">
+
+
+                <!-- TOP FILTER ROW -->
+                <div class="report-top">
+
+                    <!-- CATEGORY -->
+                    <div class="category-select-wrapper">
+
+                        <select
+                            class="form-select category-dropdown"
+                            formControlName="CATEGORYID"
+                            #categorySelect
+                            (change)="loadReportList(categorySelect.value)"
+                        >
+
+                            <option value="">
+                                --- Select Category First ---
+                            </option>
+
+                            <option
+                                *ngFor="let category of categoryList"
+                                [value]="category.id"
+                            >
+                                {{ category.name }}
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- =====================================
+                        REPORT + DATE FILTERS
+                    ====================================== -->
+
+                    <ng-container
+                        *ngIf="form.get('CATEGORYID')?.value"
+                    >
+
+                        <!-- =====================================
+                            REPORT LIST
+                        ====================================== -->
+
+                        <div class="report-select-wrapper">
+
+                            <select
+                                class="form-select report-dropdown"
+                                formControlName="REPORTTYPE"
+                                #reportSelect
+                                (change)="reportChanged(reportSelect.value)"
+                            >
+
+                                <option value="">
+                                    --- Select Report List ---
+                                </option>
+
+                                <option
+                                    *ngFor="let report of reportList"
+                                    [value]="report.id"
+                                >
+                                    {{ report.name }}
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- =====================================
+                            DATE FILTERS
+                        ====================================== -->
+
+                        <ng-container
+                            *ngIf="form.get('REPORTTYPE')?.value"
+                        >
+
+                            <!-- FROM DATE -->
+
+                            <div class="date-floating-group">
+
+                                <input
+                                    id="fromDate"
+                                    type="date"
+                                    class="form-control report-date-input"
+                                    formControlName="FROMDATE"
+                                >
+
+                                <label
+                                    for="fromDate"
+                                    class="report-date-label"
+                                >
+                                    <i>from date</i>
+                                </label>
+
+                            </div>
+
+
+                            <!-- TO DATE -->
+
+                            <div class="date-floating-group">
+
+                                <input
+                                    id="toDate"
+                                    type="date"
+                                    class="form-control report-date-input"
+                                    formControlName="TODATE"
+                                >
+
+                                <label
+                                    for="toDate"
+                                    class="report-date-label"
+                                >
+                                    <i>to date</i>
+                                </label>
+
+                            </div>
+
+                        </ng-container>
+
+                    </ng-container>
+
+                </div>
+
+
+            </form>
+
+
+
+            <!-- MAIN AREA -->
+            <div class="report-layout">
+
+
+
+                <!-- LEFT FILTER CHECKLIST MENU -->
+                <aside class="report-sidebar">
+
+                    <div class="filter-checklist">
+
+
+                        <div
+                            class="filter-check-item"
+                            *ngFor="let filter of filterList"
+                            [class.active]="selectedFilters.includes(filter)"
+                        >
+
+
+                            <input
+
+                                type="checkbox"
+
+                                class="filter-checkbox"
+
+                                [id]="'filter-' + filter.id"
+
+                                [checked]="selectedFilters.includes(filter)"
+
+                                [disabled]="!filter.enabled"
+
+                                (change)="openFilter(filter)"
+
+                            >
+
+
+
+                            <label
+
+                                class="filter-check-label"
+
+                                [for]="'filter-' + filter.id"
+
+                            >
+
+
+                                <i [class]="filter.icon"></i>
+
+
+                                <span>
+
+                                    {{ filter.name }}
+
+                                </span>
+
+
+                            </label>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </aside>
+
+                <!-- WORKSPACE -->
+                <main class="report-workspace-wrapper">
+
+
+                    <div class="report-workspace">
+
+
+                        <div class="workspace-scroll">
+
+
+                            <div class="workspace-inner">
+
+
+
+                                <!-- NO REPORT SELECTED -->
+                                <div
+                                    class="workspace-message"
+                                    *ngIf="!selectedReportId">
+
+                                    <i class="bx bx-file-blank"></i>
+
+                                    <p class="mb-0">
+                                        Select a report from the dropdown to enable available filters.
+                                    </p>
+
+                                </div>
+
+
+
+
+                                <!-- REPORT SELECTED -->
+                                <ng-container *ngIf="selectedReportId">
+
+
+
+                                    <!-- NO FILTER SELECTED -->
+                                    <div
+                                        class="workspace-message"
+                                        *ngIf="selectedFilters.length === 0">
+
+                                        <i class="bx bx-filter-alt"></i>
+
+                                        <p class="mb-0">
+                                            Select a filter from the left panel to configure the report.
+                                        </p>
+
+                                    </div>
+
+
+
+
+
+                                    <!-- FILTER SELECTED -->
+                                    <div *ngIf="selectedFilters.length > 0">
+
+
+
+                                        <!-- CURRENT PAGE FILTER -->
+                                        <ng-container *ngIf="pagedSelectedFilters.length > 0">
+
+
+
+                                            <!-- FILTER HEADER WITH PAGINATION -->
+                                            <div class="workspace-header">
+
+
+
+                                                <!-- FILTER TITLE -->
+                                                <div class="workspace-title">
+
+                                                    <i [class]="pagedSelectedFilters[0].icon"></i>
+
+                                                    <span>
+                                                        {{ pagedSelectedFilters[0].name }}
+                                                    </span>
+
+                                                </div>
+
+                                                <div class="workspace-header">
+
+                                                    <!-- PAGINATION -->
+                                                    <div class="workspace-pagination">
+
+                                                        <button
+                                                            type="button"
+                                                            class="page-btn page-prev"
+                                                            (click)="previousPage()"
+                                                            [disabled]="currentPage === 1">
+
+                                                            <i class="bx bx-chevron-left"></i>
+
+                                                        </button>
+
+
+                                                        <div class="page-info">
+                                                            Page {{currentPage}} / {{totalPages}}
+                                                        </div>
+
+
+                                                        <button
+                                                            type="button"
+                                                            class="page-btn page-next"
+                                                            (click)="nextPage()"
+                                                            [disabled]="currentPage === totalPages">
+
+                                                            <i class="bx bx-chevron-right"></i>
+
+                                                        </button>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                            </div>
+
+
+
+
+
+                                            <!-- FILTER DATA LIST -->
+                                            <div
+                                                class="filter-list"
+                                                *ngIf="filterData.length > 0; else noData">
+
+
+
+                                                <div
+                                                    class="filter-item"
+                                                    *ngFor="let item of filterData">
+
+
+
+                                                    <input
+
+                                                        type="checkbox"
+
+                                                        class="form-check-input"
+
+                                                        [id]="'filter-data-' + item.id"
+
+                                                        [value]="item.id"
+
+                                                        [checked]="isWorkspaceItemSelected(item.id)"
+
+                                                        (change)="selectWorkspaceItem(item)">
+
+
+
+
+
+                                                    <label
+
+                                                        class="form-check-label"
+
+                                                        [for]="'filter-data-' + item.id">
+
+
+                                                        {{ item.name }}
+
+
+                                                    </label>
+
+
+
+                                                </div>
+
+
+
+                                            </div>
+
+
+
+                                        </ng-container>
+
+
+
+
+
+
+                                        <!-- NO FILTER DATA -->
+                                        <ng-template #noData>
+
+
+                                            <div class="workspace-message">
+
+
+                                                <i class="bx bx-info-circle"></i>
+
+
+                                                <p class="mb-0">
+
+                                                    No data is available for the selected filter.
+
+                                                </p>
+
+
+                                            </div>
+
+
+                                        </ng-template>
+
+
+
+                                    </div>
+
+
+                                </ng-container>
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </main>
+
+
+                <!-- ACTION BUTTONS -->
+                <aside class="report-actions">
+
+
+                    <button
+
+                        type="button"
+
+                        class="btn btn-info bg-gradient waves-effect waves-light"
+
+                        (click)="generateReport()">
+
+
+
+                        <i class="bx bx-file"></i>
+
+
+                        <span>
+
+                            Generate >>
+
+                        </span>
+
+
+
+                    </button>
+
+                    <button
+
+                        type="button"
+
+                        class="btn btn-info bg-gradient waves-effect waves-light"
+
+                        (click)="clearReport()">
+
+
+
+                        <i class="bx bx-reset"></i>
+
+
+                        <span>
+
+                            Clear
+
+                        </span>
+
+
+
+                    </button>
+
+
+                </aside>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

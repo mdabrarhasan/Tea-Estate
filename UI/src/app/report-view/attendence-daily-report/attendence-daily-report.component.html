@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h5
+          class="card-title mb-0"
+          style="font-family: calibri; color: rgb(34, 163, 145)"
+        >
+          <i class="bx bxs-leaf"></i> Attendance Details Report
+        </h5>
+      </div>
+      <!-- end card header -->
+      <form [formGroup]="MasterForm">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <label>Date Range</label>
+              <!-- <input type="date" class="form-control" formControlName="PLUCKINGDATE"> -->
+              <select class="form-select" formControlName="PLUCKINGDATE">
+                <option [value]="0">--All--</option>
+                <option *ngFor="let x of datelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-3">
+              <label>Book</label>
+              <select class="form-select" formControlName="BOOKID">
+                <option [value]="0">--All--</option>
+                <option *ngFor="let x of booklist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-2">
+              <button
+                type="button"
+                style="margin-top: 28px"
+                (click)="Fetch()"
+                class="btn btn-info bg-gradient waves-effect waves-light"
+              >
+                <i class="bx bx-down-arrow-circle"></i> Fetch
+              </button>
+            </div>
+            <div class="col-sm-2">
+              <label>Report Type</label>
+              <select class="form-select" formControlName="REPORTTYPE">
+                <option [value]="">--Select--</option>
+                <option value="1">Wages Sheet Report</option>
+                <option value="2">Wages Summary</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <button
+                type="button"
+                style="margin-top: 28px"
+                (click)="Report()"
+                class="btn btn-info bg-gradient waves-effect waves-light"
+              >
+                <i class="bx bx-down-arrow-circle"></i> Report
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- end card-body -->
+      </form>
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-gridjs">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th style="width: 10%">
+                  <a (click)="sortBy('name')">Name {{ sortIcon("name") }}</a>
+                </th>
+                <th style="width: 20%">
+                  <a (click)="sortBy('Code')">Code {{ sortIcon("code") }}</a>
+                </th>
+                <th style="width: 15%">
+                  <a (click)="sortBy('book')"
+                    >BOOK/EMP NO {{ sortIcon("book") }}</a
+                  >
+                </th>
+                <!-- <th style="width: 20%;"><a (click)="sortBy('batch')">BATCH {{sortIcon('batch')}}</a></th> -->
+                <th style="width: 10%">
+                  <a (click)="sortBy('worktype')"
+                    >Type {{ sortIcon("worktype") }}</a
+                  >
+                </th>
+
+                <th style="width: 10%">
+                  <a (click)="sortBy('attendence')"
+                    >ATTD {{ sortIcon("attendence") }}</a
+                  >
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of pageOfItems">
+                <td>{{ data.name }}</td>
+                <td>{{ data.code }}</td>
+                <td>{{ data.book }}</td>
+                <!-- <td>{{data.batch}}</td> -->
+                <td>{{ data.workertype }}</td>
+                <td>{{ data.attendence }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-md-between align-items-md-center">
+          <pagination
+            [items]="items"
+            (changePage)="onChangePage($event)"
+          ></pagination>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>

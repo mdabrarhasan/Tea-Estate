@@ -1,0 +1,502 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">
+          <i class="bx bxs-leaf"></i> Kamjari Management
+        </h4>
+      </div>
+      <!-- end card header -->
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4 col-md-4 col-xl-4">
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              *hasPermission="'insert'"
+            >
+              <i class="bx bx-plus-circle align-middle fs-16 me-2"></i>Create
+              New
+            </button>
+          </div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <div class="search-box">
+              <!-- <input type="text" class="form-control search" placeholder="Search..." [(ngModel)]="searchText"> -->
+              <input
+                type="text"
+                class="form-control search"
+                placeholder="Search..."
+                [(ngModel)]="searchText"
+                (input)="filterData()"
+              />
+              <i class="ri-search-line search-icon"></i>
+            </div>
+          </div>
+        </div>
+        <br />
+
+        <div class="table-responsive">
+          <table class="table table-gridjs">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th style="width: 50%">
+                  <a (click)="sortBy('name')">Name {{ sortIcon("name") }} </a>
+                </th>
+                <th style="width: 10%">
+                  <a (click)="sortBy('code')">Code {{ sortIcon("code") }}</a>
+                </th>
+                <!-- <th style="width: 20%;" class="sort" data-sort="isactive" (click)="onSort('isactive')">Active</th> -->
+                <th style="width: 10%">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of pageOfItems">
+                <td>{{ data.name }}</td>
+                <td>{{ data.code }}</td>
+                <!-- <td><ngb-highlight [result]="data.isactive.toString()" [term]="service.searchTerm"></ngb-highlight></td> -->
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropEdit"
+                    *hasPermission="'update'"
+                    (click)="GetDataByID(data.id)"
+                  >
+                    <i class="bx bx-pencil"></i>
+                  </button>
+                  &nbsp;
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    *hasPermission="'delete'"
+                    (click)="Delete(data.id)"
+                  >
+                    <i class="bx bxs-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row justify-content-md-between align-items-md-center">
+          <pagination
+            [items]="items"
+            (changePage)="onChangePage($event)"
+          ></pagination>
+          <!-- End Pagination -->
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+<form [formGroup]="MasterForm">
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create Kamjari
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-8">
+              <label for="customer-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" formControlName="Name" />
+            </div>
+
+            <div class="col-sm-4">
+              <label for="message-text" class="col-form-label">Code:</label>
+              <input type="text" class="form-control" formControlName="Code" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="customer-name" class="col-form-label">Type:</label>
+              <select class="form-select" formControlName="Type">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjarilist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label"
+                >Mark As Doubly Kamjari:</label
+              >
+              <select class="form-select" formControlName="DoublyKamjari">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="customer-name" class="col-form-label"
+                >Exclude In Wages:</label
+              >
+              <select class="form-select" formControlName="ExcludeInWages">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label">Account:</label>
+              <select class="form-select" formControlName="Account">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >Task Unit:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="TaskUnit"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Task Men:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="TaskMen"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >Task WoMen:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="TaskWomen"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label"
+                >Pay of Post:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="PayofPost"
+              />
+            </div>
+
+            <div class="col-sm-6">
+              <label for="customer-name" class="col-form-label"
+                >Master Type:</label
+              >
+              <select class="form-select" formControlName="MasterTypeID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of mastertypelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="customer-name" class="col-form-label"
+                >Is Material Account:</label
+              >
+              <select class="form-select" formControlName="IsMaterialAccount">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-4">
+              <label for="message-text" class="col-form-label"
+                >Doubly Rate:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="DoublyRate"
+              />
+            </div>
+            <div class="col-sm-4">
+              <label for="message-text" class="col-form-label"
+                >Fixed Doubly Rate:</label
+              >
+              <select class="form-select" formControlName="FixedDoublyRate">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Create()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="EMasterForm">
+  <input type="hidden" formControlName="EID" />
+  <div
+    class="modal fade"
+    id="staticBackdropEdit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-pencil"></i> Edit Kamjari
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-8">
+              <label for="customer-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" formControlName="EName" />
+            </div>
+
+            <div class="col-sm-4">
+              <label for="message-text" class="col-form-label">Code:</label>
+              <input type="text" class="form-control" formControlName="ECode" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="customer-name" class="col-form-label">Type:</label>
+              <select class="form-select" formControlName="EType">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjarilist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label"
+                >Mark As Doubly Kamjari:</label
+              >
+              <select class="form-select" formControlName="EDoublyKamjari">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="customer-name" class="col-form-label"
+                >Exclude In Wages:</label
+              >
+              <select class="form-select" formControlName="EExcludeInWages">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label">Account:</label>
+              <select class="form-select" formControlName="EAccount">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >Task Unit:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="ETaskUnit"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Task Men:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="ETaskMen"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >Task WoMen:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="ETaskWomen"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label"
+                >Pay of Post:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EPayofPost"
+              />
+            </div>
+
+            <div class="col-sm-6">
+              <label for="customer-name" class="col-form-label"
+                >Master Type:</label
+              >
+              <select class="form-select" formControlName="EMasterTypeID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of mastertypelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="customer-name" class="col-form-label"
+                >Is Material Account:</label
+              >
+              <select class="form-select" formControlName="EIsMaterialAccount">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-4">
+              <label for="message-text" class="col-form-label"
+                >Doubly Rate:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EDoublyRate"
+              />
+            </div>
+            <div class="col-sm-4">
+              <label for="message-text" class="col-form-label"
+                >Fixed Doubly Rate:</label
+              >
+              <select class="form-select" formControlName="EFixedDoublyRate">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of isactivelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Update()" class="btn btn-success">
+            <i class="bx bx-check"></i>Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

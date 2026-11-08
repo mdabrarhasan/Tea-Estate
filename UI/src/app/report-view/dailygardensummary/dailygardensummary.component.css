@@ -1,0 +1,340 @@
+/* =========================================================
+   Daily Garden Summary — prefix: dgs-
+   Same look as the other System Reports (teal #22A395, Calibri headings)
+   ========================================================= */
+
+:host {
+  --dgs-teal: #22a395;
+  --dgs-teal-dark: #1b8a7e;
+  --dgs-teal-soft: rgba(34, 163, 145, 0.08);
+  --dgs-teal-border: rgba(34, 163, 145, 0.35);
+  --dgs-border: #e3e8ee;
+  --dgs-muted: #6c757d;
+  --dgs-text: #2b3440;
+}
+
+/* ---------- card ---------- */
+.dgs-card {
+  border: 1px solid var(--dgs-border);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.dgs-header {
+  background: #fff;
+  border-bottom: 2px solid var(--dgs-teal);
+}
+
+.dgs-title {
+  font-family: Calibri;
+  color: var(--dgs-teal);
+  letter-spacing: 0.2px;
+}
+
+.dgs-title i {
+  margin-right: 4px;
+}
+
+/* ---------- top bar ---------- */
+.dgs-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed var(--dgs-border);
+}
+
+.dgs-dates {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dgs-date-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.dgs-date-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dgs-text);
+  margin-bottom: 4px;
+}
+
+.dgs-date-field .form-control:focus,
+.dgs-panel-search .form-control:focus {
+  border-color: var(--dgs-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.2);
+}
+
+.dgs-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.dgs-btn-generate,
+.dgs-btn-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.dgs-btn-generate {
+  background: var(--dgs-teal);
+  border: 1px solid var(--dgs-teal);
+  color: #fff;
+}
+
+.dgs-btn-generate:hover {
+  background: var(--dgs-teal-dark);
+  border-color: var(--dgs-teal-dark);
+  color: #fff;
+}
+
+.dgs-btn-clear {
+  background: #fff;
+  border: 1px solid var(--dgs-border);
+  color: var(--dgs-muted);
+}
+
+.dgs-btn-clear:hover {
+  border-color: var(--dgs-teal-border);
+  color: var(--dgs-teal);
+}
+
+/* ---------- body: rail + panel ---------- */
+.dgs-body {
+  display: flex;
+  gap: 16px;
+  min-height: 420px;
+}
+
+/* left rail */
+.dgs-rail {
+  flex: 0 0 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dgs-rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--dgs-border);
+  border-radius: 8px;
+  color: var(--dgs-text);
+  font-weight: 600;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.dgs-rail-btn:hover {
+  border-color: var(--dgs-teal-border);
+  background: var(--dgs-teal-soft);
+}
+
+.dgs-rail-btn.active {
+  background: var(--dgs-teal);
+  border-color: var(--dgs-teal);
+  color: #fff;
+}
+
+.dgs-rail-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dgs-rail-label i {
+  font-size: 1.1rem;
+}
+
+.dgs-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--dgs-teal);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dgs-rail-btn.active .dgs-badge {
+  background: #fff;
+  color: var(--dgs-teal);
+}
+
+/* center panel */
+.dgs-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--dgs-border);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.dgs-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--dgs-teal-soft);
+  border-bottom: 1px solid var(--dgs-border);
+}
+
+.dgs-panel-title {
+  font-family: Calibri, "Segoe UI", sans-serif;
+  font-size: medium;
+  font-weight: 700;
+  color: var(--dgs-teal);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dgs-panel-search {
+  position: relative;
+  width: 260px;
+  max-width: 100%;
+}
+
+.dgs-panel-search i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dgs-muted);
+}
+
+.dgs-panel-search .form-control {
+  padding-left: 32px;
+  height: 34px;
+  font-size: 0.875rem;
+}
+
+.dgs-selectall {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--dgs-border);
+  background: #fafbfc;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.dgs-list {
+  flex: 1 1 auto;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  align-content: start;
+  gap: 4px;
+}
+
+/* checkbox rows */
+.dgs-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dgs-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--dgs-teal);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dgs-row {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--dgs-text);
+  transition: background 0.12s ease;
+}
+
+.dgs-row:hover {
+  background: var(--dgs-teal-soft);
+}
+
+.dgs-row.checked {
+  background: rgba(34, 163, 145, 0.14);
+  font-weight: 600;
+}
+
+.dgs-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* empty / loading states */
+.dgs-state {
+  grid-column: 1 / -1;
+  padding: 28px 12px;
+  text-align: center;
+  color: var(--dgs-muted);
+  font-size: 0.9rem;
+}
+
+.dgs-state i {
+  font-size: 1.3rem;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.dgs-panel-empty {
+  margin: auto;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 768px) {
+  .dgs-body {
+    flex-direction: column;
+  }
+
+  .dgs-rail {
+    flex: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .dgs-rail-btn {
+    width: auto;
+    flex: 1 1 140px;
+  }
+
+  .dgs-panel-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dgs-panel-search {
+    width: 100%;
+  }
+}

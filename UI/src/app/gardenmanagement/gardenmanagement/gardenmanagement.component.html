@@ -1,0 +1,297 @@
+<div class="row" ngonit>
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">
+          <i class="bx bxs-leaf"></i> Garden Management
+        </h4>
+      </div>
+      <!-- end card header -->
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <button
+              [disabled]="true"
+              type="button"
+              class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              <i class="bx bx-plus-circle align-middle fs-16 me-2"></i>Create
+              New
+            </button>
+          </div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4"></div>
+        </div>
+        <br />
+
+        <div class="table-responsive">
+          <table class="table table-gridjs">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th
+                  style="width: 25%"
+                  class="sort"
+                  data-sort="name"
+                  (click)="onSort('name')"
+                >
+                  Name
+                </th>
+                <th
+                  style="width: 10%"
+                  class="sort"
+                  data-sort="code"
+                  (click)="onSort('code')"
+                >
+                  Code
+                </th>
+                <th
+                  style="width: 15%"
+                  class="sort"
+                  data-sort="holiday"
+                  (click)="onSort('holiday')"
+                >
+                  Weekly Holiday
+                </th>
+                <th
+                  style="width: 10%"
+                  class="sort"
+                  data-sort="interval"
+                  (click)="onSort('interval')"
+                >
+                  Interval
+                </th>
+                <th
+                  style="width: 25%"
+                  class="sort"
+                  data-sort="division"
+                  (click)="onSort('division')"
+                >
+                  Division
+                </th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of griddata">
+                <td>
+                  <ngb-highlight
+                    [result]="data.name"
+                    [term]="service.searchTerm"
+                  ></ngb-highlight>
+                </td>
+                <td>
+                  <ngb-highlight
+                    [result]="data.code"
+                    [term]="service.searchTerm"
+                  ></ngb-highlight>
+                </td>
+                <td>
+                  <ngb-highlight
+                    [result]="data.holiday"
+                    [term]="service.searchTerm"
+                  ></ngb-highlight>
+                </td>
+                <td>
+                  <ngb-highlight
+                    [result]="data.interval"
+                    [term]="service.searchTerm"
+                  ></ngb-highlight>
+                </td>
+                <td>
+                  <ngb-highlight
+                    [result]="data.division"
+                    [term]="service.searchTerm"
+                  ></ngb-highlight>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropEdit"
+                    *hasPermission="'update'"
+                    (click)="GetDataByID(data.id)"
+                  >
+                    <i class="bx bx-pencil"></i>
+                  </button>
+                  &nbsp;
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    *hasPermission="'delete'"
+                    (click)="Delete(data.id)"
+                  >
+                    <i class="bx bxs-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+<form [formGroup]="MasterForm">
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create Garden
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" formControlName="NAME" />
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Code:</label>
+            <input type="text" class="form-control" formControlName="CODE" />
+          </div>
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Weekly Holiday:</label
+            >
+            <select class="form-select" formControlName="HOLIDAYID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of weeklyholidaylist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Plucking Bucket Interval:</label
+            >
+            <select class="form-select" formControlName="INTERVALID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of intervallist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+            <!-- <div *ngIf="submitted && f['INTERVALID'].value==0" class="invalid-feedback">
+                              </div> -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Create()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="EMasterForm">
+  <input type="hidden" formControlName="EID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdropEdit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-pencil"></i> Edit Garden
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" formControlName="ENAME" />
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Code:</label>
+            <input type="text" class="form-control" formControlName="ECODE" />
+          </div>
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Weekly Holiday:</label
+            >
+            <select class="form-select" formControlName="EHOLIDAYID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of weeklyholidaylist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Plucking Bucket Interval:</label
+            >
+            <select class="form-select" formControlName="EINTERVALID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of intervallist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Update()" class="btn btn-success">
+            <i class="bx bx-check"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

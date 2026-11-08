@@ -1,0 +1,315 @@
+<div
+  class="container-fluid right_panel_con dimmable secondary-field-new"
+  style="width: 100%"
+  ng-cloak
+>
+  <form
+    class="ui form"
+    autocomplete="off"
+    style="margin-bottom: 20px"
+    [formGroup]="MasterForm"
+  >
+    <div class="card mb-3">
+      <div class="card-header">
+        <h4 class="card-title mb-0">
+          <i class="bx bxs-leaf"></i> Plucking Task Allocation
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2">
+            <!-- <label>Date</label> -->
+            <input
+              type="date"
+              formControlName="PLUCKINGDATE"
+              class="form-control date_range_selector"
+            />
+            <input
+              type="text"
+              formControlName="ENROLL"
+              hidden
+              class="form-control date_range_selector"
+            />
+            <input
+              type="text"
+              formControlName="UNIT"
+              hidden
+              class="form-control date_range_selector"
+            />
+          </div>
+          <div class="col-md-2">
+            <!-- <label>Kamjari</label> -->
+            <select class="form-select" formControlName="PLUCKINGTYPEID">
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <button type="button" (click)="fetchData()" class="btn btn-success">
+              Fetch
+            </button>
+          </div>
+          <div class="col-md-2 text-center">
+            <div
+              class="d-flex flex-column justify-content-center align-items-center h-100"
+            >
+              <label>AVG</label>
+              <span class="form-text fw-bold">{{
+                tableData[0]?.avg || "N/A"
+              }}</span>
+            </div>
+          </div>
+
+          <div class="col-md-2 text-center">
+            <div
+              class="d-flex flex-column justify-content-center align-items-center h-100"
+            >
+              <label>MIN</label>
+              <span class="form-text fw-bold">{{
+                tableData[0]?.min || "N/A"
+              }}</span>
+            </div>
+          </div>
+
+          <div class="col-md-2 text-center">
+            <div
+              class="d-flex flex-column justify-content-center align-items-center h-100"
+            >
+              <label>MAX</label>
+              <span class="form-text fw-bold">{{
+                tableData[0]?.max || "N/A"
+              }}</span>
+            </div>
+          </div>
+        </div>
+        <br />
+        <br />
+        <div class="row margin">
+          <div class="col-md-2">
+            <label>ELP/DLP Rate</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="ELPDLPRATE"
+            />
+          </div>
+          <div class="col-md-2">
+            <label>Target Kg (Incentive)</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="TARGETKG"
+            />
+          </div>
+          <div class="col-md-2">
+            <label>Min Kg</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="MINTASKKG"
+            />
+          </div>
+          <div class="col-md-1">
+            <label>Max Kg</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="MAXTASKKG"
+            />
+          </div>
+          <div class="col-md-2">
+            <label>Disable Disincentive</label>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="disableDisincentive"
+                formControlName="DISABLEDISINCENTIVE"
+              />
+              <label class="form-check-label" for="disableDisincentive"></label>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <label>Extra Rate</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="EXTRARATE"
+            />
+          </div>
+          <div class="col-md-2">
+            <label>Enable Plucking Extra</label>
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="ENABLEPLUCKINGEXTRA"
+                id="enablePluckingExtra"
+              />
+              <label class="form-check-label" for="enablePluckingExtra"></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title mb-0">
+              <i class="ri-shopping-cart-fill align-middle me-2"></i> info
+            </h4>
+          </div>
+          <!-- end card header -->
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <button
+                  type="button"
+                  (click)="getTableData()"
+                  class="btn btn-success"
+                >
+                  <i class="bx bxs-check-circle"></i> Save
+                </button>
+              </div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4">
+                <div class="search-box">
+                  <input
+                    type="text"
+                    class="form-control search"
+                    placeholder="Search..."
+                  />
+                  <i class="ri-search-line search-icon"></i>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="table-responsive">
+              <table class="ui compact green table" #detailsItems>
+                <thead style="background-color: rgb(243, 243, 249)">
+                  <tr>
+                    <th>
+                      <input type="checkbox" (change)="toggleAll($event)" />
+                    </th>
+                    <th>Batch</th>
+                    <th>Avg Plucked Qty</th>
+                    <th>Min Plucked Qty</th>
+                    <th>Max Plucked Qty</th>
+                    <th>Target Qty</th>
+                    <th>Min Task Qty</th>
+                    <th>Max Task Qty</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of tableData">
+                    <td>
+                      <input
+                        type="checkbox"
+                        [(ngModel)]="row.isselected"
+                        [ngModelOptions]="{ standalone: true }"
+                        (change)="onSelectionChange()"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control batch"
+                        value="{{ row.batch }}"
+                      />
+                      <input
+                        type="text"
+                        hidden
+                        class="form-control batchid"
+                        value="{{ row.batchid }}"
+                      />
+                      <input
+                        type="text"
+                        hidden
+                        class="form-control bookid"
+                        value="{{ row.bookid }}"
+                      />
+                      <input
+                        type="text"
+                        hidden
+                        class="form-control operatorid"
+                        value="{{ row.operatorid }}"
+                      />
+                      <input
+                        type="text"
+                        hidden
+                        class="form-control deviceid"
+                        value="{{ row.deviceid }}"
+                      />
+                      <input
+                        type="text"
+                        hidden
+                        class="form-control kamjaritypeid"
+                        value="{{ row.kamjaritypeid }}"
+                      />
+                      <input
+                        type="text"
+                        hidden
+                        class="form-control weighmentid"
+                        value="{{ row.weighmentid }}"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control avgpluckqty"
+                        value="{{ row.avgpluckqty }}"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control minpluckqty"
+                        value="{{ row.minpluckqty }}"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control maxpluckqty"
+                        value="{{ row.maxpluckqty }}"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control targetqty"
+                        value="{{ row.targetqty }}"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control mintaskqty"
+                        value="{{ row.mintaskqty }}"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control maxtaskqty"
+                        value="{{ row.maxtaskqty }}"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- end card-body -->
+        </div>
+        <!-- end card -->
+      </div>
+      <!-- end col -->
+    </div>
+  </form>
+</div>

@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card lvs-card">
+      <!-- Header -->
+      <div class="card-header lvs-header">
+        <h5 class="card-title mb-0 lvs-title">
+          <i class="bx bxs-leaf"></i> Leave Summary
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <!-- ================= TOP BAR: date range + actions ================= -->
+        <div class="lvs-topbar" [formGroup]="DateForm">
+          <div class="lvs-dates">
+            <div class="lvs-date-field">
+              <label>From</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="FROMDATE"
+              />
+            </div>
+            <div class="lvs-date-field">
+              <label>To</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="TODATE"
+              />
+            </div>
+          </div>
+
+          <div class="lvs-actions">
+            <button
+              type="button"
+              class="btn lvs-btn-generate"
+              (click)="generate()"
+            >
+              <i class="bx bx-play-circle"></i> Generate
+            </button>
+            <button
+              type="button"
+              class="btn lvs-btn-clear"
+              (click)="clearAll()"
+            >
+              <i class="bx bx-eraser"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= BODY: left rail + center panel ================= -->
+        <div class="lvs-body">
+          <!-- LEFT RAIL -->
+          <div class="lvs-rail">
+            <button
+              *ngFor="let c of categories"
+              type="button"
+              class="lvs-rail-btn"
+              [class.active]="c.key === activeKey"
+              (click)="selectCategory(c.key)"
+            >
+              <span class="lvs-rail-label">
+                <i class="bx {{ c.icon }}"></i> {{ c.label }}
+              </span>
+              <span class="lvs-badge" *ngIf="selectedCount(c.key) > 0">
+                {{ selectedCount(c.key) }}
+              </span>
+            </button>
+          </div>
+
+          <!-- CENTER PANEL -->
+          <div class="lvs-panel">
+            <!-- prompt shown when no category is selected -->
+            <div class="lvs-state lvs-panel-empty" *ngIf="!active">
+              <i class="bx bx-left-arrow-alt"></i>
+              Select a filter on the left to load its options.
+            </div>
+
+            <ng-container *ngIf="active">
+              <!-- panel toolbar -->
+              <div class="lvs-panel-head">
+                <div class="lvs-panel-title">
+                  <i class="bx {{ active.icon }}"></i> {{ active.label }}
+                </div>
+                <div class="lvs-panel-search">
+                  <i class="bx bx-search"></i>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search {{ active.label | lowercase }}..."
+                    [(ngModel)]="filterText"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+              </div>
+
+              <!-- select-all bar -->
+              <div class="lvs-selectall" *ngIf="visibleItems.length > 0">
+                <label class="lvs-check">
+                  <input
+                    type="checkbox"
+                    [checked]="allVisibleChecked()"
+                    (change)="toggleAllVisible()"
+                  />
+                  <span>Select all {{ visibleItems.length }} shown</span>
+                </label>
+              </div>
+
+              <!-- list -->
+              <div class="lvs-list">
+                <div class="lvs-state" *ngIf="active.loading">
+                  <i class="bx bx-loader-alt bx-spin"></i> Loading
+                  {{ active.label | lowercase }}...
+                </div>
+
+                <div
+                  class="lvs-state"
+                  *ngIf="
+                    !active.loading &&
+                    active.loaded &&
+                    visibleItems.length === 0
+                  "
+                >
+                  <i class="bx bx-folder-open"></i>
+                  No {{ active.label | lowercase }} found.
+                </div>
+
+                <label
+                  class="lvs-check lvs-row"
+                  *ngFor="let item of visibleItems"
+                  [class.checked]="isChecked(item.id)"
+                >
+                  <input
+                    type="checkbox"
+                    [checked]="isChecked(item.id)"
+                    (change)="toggle(item.id)"
+                  />
+                  <span>{{ item.name }}</span>
+                </label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <!-- end lvs-body -->
+      </div>
+    </div>
+  </div>
+</div>

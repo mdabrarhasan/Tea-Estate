@@ -1,0 +1,302 @@
+/* ============================================================
+   Worker Wise Attendance Summary — Tea Link themed report page
+   Primary teal: #22A395  (rgb(34,163,145))
+   ============================================================ */
+
+.wwas-card {
+  --wwas-teal: #22a395;
+  --wwas-teal-dark: #1b8375;
+  --wwas-teal-tint: #eaf7f5;
+  --wwas-line: #e6e9ef;
+  --wwas-surface: #f7f9fb;
+  --wwas-text: #384250;
+  --wwas-muted: #8b95a5;
+}
+
+/* ---------- header ---------- */
+.wwas-header {
+  background: #fff;
+  border-bottom: 2px solid var(--wwas-teal);
+}
+.wwas-title {
+  font-family: calibri;
+  color: var(--wwas-teal);
+  letter-spacing: 0.2px;
+}
+.wwas-title i {
+  margin-right: 4px;
+}
+
+/* ---------- top bar ---------- */
+.wwas-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 4px 2px 16px;
+  border-bottom: 1px solid var(--wwas-line);
+  margin-bottom: 16px;
+}
+.wwas-dates {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.wwas-date-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--wwas-muted);
+  margin-bottom: 4px;
+}
+.wwas-date-field .form-control {
+  min-width: 170px;
+  border-color: var(--wwas-line);
+}
+.wwas-date-field .form-control:focus {
+  border-color: var(--wwas-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.18);
+}
+
+.wwas-actions {
+  display: flex;
+  gap: 10px;
+}
+.wwas-btn-generate,
+.wwas-btn-clear {
+  min-width: 120px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.wwas-btn-generate {
+  background: var(--wwas-teal);
+  border: 1px solid var(--wwas-teal);
+  color: #fff;
+}
+.wwas-btn-generate:hover {
+  background: var(--wwas-teal-dark);
+  border-color: var(--wwas-teal-dark);
+  color: #fff;
+}
+.wwas-btn-clear {
+  background: #fff;
+  border: 1px solid var(--wwas-line);
+  color: var(--wwas-text);
+}
+.wwas-btn-clear:hover {
+  background: var(--wwas-surface);
+  border-color: var(--wwas-muted);
+}
+
+/* ---------- body: rail + panel ---------- */
+.wwas-body {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* ---------- left rail ---------- */
+.wwas-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wwas-rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--wwas-line);
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  color: var(--wwas-text);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.wwas-rail-btn:hover {
+  background: var(--wwas-surface);
+}
+.wwas-rail-btn.active {
+  background: var(--wwas-teal-tint);
+  border-color: var(--wwas-teal);
+  border-left-color: var(--wwas-teal);
+  color: var(--wwas-teal-dark);
+  font-weight: 600;
+}
+.wwas-rail-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.wwas-rail-label i {
+  font-size: 1.05rem;
+}
+.wwas-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--wwas-teal);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- center panel ---------- */
+.wwas-panel-empty {
+  margin: auto;
+}
+.wwas-panel {
+  border: 1px solid var(--wwas-line);
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+.wwas-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--wwas-surface);
+  border-bottom: 1px solid var(--wwas-line);
+  flex-wrap: wrap;
+}
+.wwas-panel-title {
+  font-weight: 600;
+  color: var(--wwas-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.wwas-panel-title i {
+  color: var(--wwas-teal);
+}
+.wwas-panel-search {
+  position: relative;
+  flex: 1;
+  max-width: 280px;
+}
+.wwas-panel-search i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--wwas-muted);
+}
+.wwas-panel-search .form-control {
+  padding-left: 32px;
+  border-color: var(--wwas-line);
+}
+.wwas-panel-search .form-control:focus {
+  border-color: var(--wwas-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.18);
+}
+
+.wwas-selectall {
+  padding: 8px 14px;
+  border-bottom: 1px dashed var(--wwas-line);
+  background: #fff;
+}
+
+/* ---------- list ---------- */
+.wwas-list {
+  padding: 6px 0;
+  overflow-y: auto;
+  max-height: 460px;
+  flex: 1;
+}
+
+.wwas-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  cursor: pointer;
+  color: var(--wwas-text);
+  user-select: none;
+}
+.wwas-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--wwas-teal);
+  cursor: pointer;
+}
+.wwas-selectall .wwas-check span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--wwas-muted);
+}
+
+.wwas-row {
+  padding: 9px 14px;
+  border-bottom: 1px solid #f1f3f7;
+  transition: background-color 0.12s ease;
+}
+.wwas-row:hover {
+  background: var(--wwas-surface);
+}
+.wwas-row.checked {
+  background: var(--wwas-teal-tint);
+}
+.wwas-row span {
+  font-size: 0.92rem;
+}
+
+/* ---------- states ---------- */
+.wwas-state {
+  padding: 28px 14px;
+  text-align: center;
+  color: var(--wwas-muted);
+  font-size: 0.9rem;
+}
+.wwas-state i {
+  font-size: 1.1rem;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 768px) {
+  .wwas-body {
+    grid-template-columns: 1fr;
+  }
+  .wwas-rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .wwas-rail-btn {
+    width: auto;
+    flex: 1 1 40%;
+  }
+  .wwas-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wwas-actions {
+    justify-content: flex-end;
+  }
+}

@@ -1,0 +1,73 @@
+<!-- component/operatorpermission/operatorpermission.component.html -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="card-title mb-0" style="color: #0ab39c; font-size: 15px">
+          <i class="bx bxs-lock-alt" style="color: #0ab39c"></i> Operator
+          Permissions
+        </h1>
+      </div>
+
+      <div class="card-body">
+        <p class="text-muted mb-3">
+          <i class="bx bx-info-circle"></i>
+          Permissions set here apply to <strong>all operators</strong>. Turn off
+          <strong>View</strong> to hide a page from operators entirely.
+        </p>
+
+        <div *ngIf="loading" class="text-center py-4">
+          <i class="bx bx-loader bx-spin fs-1"></i>
+        </div>
+
+        <div class="table-responsive" *ngIf="!loading">
+          <table class="table table-bordered align-middle mb-0">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th style="width: 40%">Page Name</th>
+                <th class="text-center" *ngFor="let a of actions">
+                  {{ a.label }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let g of groups">
+                <!-- <tr class="menu-group-row">
+                  <td [attr.colspan]="actions.length + 1">{{ g.menuname }}</td>
+                </tr> -->
+                <tr class="menu-group-row">
+                  <td
+                    [attr.colspan]="actions.length + 1"
+                    style="
+                      font-size: larger;
+                      font-weight: bold;
+                      color: #0ab39c;
+                      text-align: center;
+                    "
+                  >
+                    {{ g.menuname }}
+                  </td>
+                </tr>
+                <tr *ngFor="let row of g.rows">
+                  <td>{{ row.submenuname }}</td>
+                  <td class="text-center" *ngFor="let a of actions">
+                    <div class="form-check form-switch d-inline-block">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        [checked]="row[a.key]"
+                        [disabled]="isSaving(row, a.key)"
+                        (change)="toggle(row, a.key)"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

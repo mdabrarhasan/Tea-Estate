@@ -1,0 +1,2058 @@
+<div class="row">
+  <div class="col-sm-12">
+    <!-- <h5 class="mb-3">Worker Management</h5> -->
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">
+          <i class="bx bxs-leaf"></i> Worker Management
+        </h4>
+      </div>
+      <div class="card-body">
+        <ul
+          ngbNav
+          #BorderTop="ngbNav"
+          [activeId]="1"
+          class="nav nav-tabs nav-justified nav-border-top nav-border-top-info mb-3"
+        >
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>
+              <i class="ri-home-5-line align-middle me-1"></i> Workers
+            </a>
+
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-8">
+                          <div class="d-flex flex-wrap gap-2 align-items-end">
+                            <button
+                              type="button"
+                              class="btn btn-success"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModalFullscreenLg"
+                              *hasPermission="'insert'"
+                              (click)="fullLGModal(fullLgDataModal)"
+                            >
+                              <i
+                                class="bx bx-plus-circle align-middle fs-16 me-2"
+                              ></i
+                              >Create New
+                            </button>
+
+                            <button
+                              type="button"
+                              class="btn btn-success"
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModalFullscreenLg"
+                              *hasPermission="'print'"
+                              (click)="Report()"
+                            >
+                              <i
+                                class="bx bx-plus-circle align-middle fs-16 me-2"
+                              ></i
+                              >Worker List
+                            </button>
+                            <div style="min-width: 200px">
+                              <input
+                                id="fileUpload"
+                                class="form-control"
+                                type="file"
+                                (change)="onFileChange($event)"
+                              />
+                            </div>
+
+                            <button
+                              type="button"
+                              class="btn btn-success"
+                              *hasPermission="'insert'"
+                              (click)="uploadWorkerExcel()"
+                            >
+                              <i class="bx bx-check"></i> Upload
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                          <div class="search-box">
+                            <input
+                              type="text"
+                              class="form-control search"
+                              placeholder="Search..."
+                              [(ngModel)]="searchText"
+                              (input)="filterData()"
+                            />
+
+                            <i class="ri-search-line search-icon"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+
+                      <div class="table-responsive">
+                        <table class="table table-gridjs">
+                          <thead style="background-color: rgb(243, 243, 249)">
+                            <tr>
+                              <th
+                                style="width: 30%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('name')"
+                              >
+                                Name
+                              </th>
+
+                              <th
+                                style="width: 10%"
+                                class="sort"
+                                data-sort="code"
+                                (click)="onSort('code')"
+                              >
+                                Code
+                              </th>
+
+                              <th
+                                style="width: 10%"
+                                class="sort"
+                                data-sort="code"
+                                (click)="onSort('bookname')"
+                              >
+                                Book Name
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="code"
+                                (click)="onSort('workertype')"
+                              >
+                                Worker Type
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('divisionname')"
+                              >
+                                Division
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="code"
+                                (click)="onSort('empno')"
+                              >
+                                Employee Number
+                              </th>
+
+                              <th style="width: 10%">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            <tr *ngFor="let data of workerItems">
+                              <td>{{ data.name }}</td>
+
+                              <td>{{ data.code }}</td>
+
+                              <td>{{ data.bookname }}</td>
+
+                              <td>{{ data.workertype }}</td>
+
+                              <td>{{ data.divisionname }}</td>
+
+                              <td>{{ data.empno }}</td>
+
+                              <!-- <td><ngb-highlight [result]="data.isactive.toString()" [term]="service.searchTerm"></ngb-highlight></td> -->
+
+                              <td>
+                                <button
+                                  type="button"
+                                  class="btn btn-success"
+                                  *hasPermission="'update'"
+                                  (click)="EfullLGModal(efullLgDataModal)"
+                                  (click)="WorkerManagementGetDataByID(data.id)"
+                                >
+                                  <i class="bx bx-pencil"></i>
+                                </button>
+                                &nbsp;
+
+                                <button
+                                  type="button"
+                                  class="btn btn-warning"
+                                  *hasPermission="'delete'"
+                                  (click)="WorkerManagementDelete(data.id)"
+                                >
+                                  <i class="bx bxs-trash-alt"></i>
+                                </button>
+                              </td>
+                            </tr>
+
+                            <!-- @for(data of this.gridworkermanagementList$ | async;track $index){
+
+                                        <tr>
+
+                                          <td><ngb-highlight [result]="data.name" [term]="this.pagination.searchTerm"></ngb-highlight></td>
+
+                                          <td><ngb-highlight [result]="data.code" [term]="this.pagination.searchTerm"></ngb-highlight></td>
+
+                                          <td><ngb-highlight [result]="data.bookname" [term]="this.pagination.searchTerm"></ngb-highlight></td>
+
+                                          <td><ngb-highlight [result]="data.workertype" [term]="this.pagination.searchTerm"></ngb-highlight></td>
+
+                                          <td><ngb-highlight [result]="data.divisionname" [term]="this.pagination.searchTerm"></ngb-highlight></td>
+
+                                          <td><ngb-highlight [result]="data.empno" [term]="this.pagination.searchTerm"></ngb-highlight></td>
+
+                                          <td>
+
+                                            <button type="button" class="btn btn-success"  (click)="EfullLGModal(efullLgDataModal)" (click)="WorkerManagementGetDataByID(data.id)"><i class="bx bx-pencil"></i></button> &nbsp;
+
+                                            <button type="button" class="btn btn-warning" (click)="WorkerManagementDelete(data.id)" ><i class="bx bxs-trash-alt"></i></button>
+
+                                          </td>
+
+                                        </tr>} -->
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div
+                        class="row justify-content-md-between align-items-md-center"
+                      >
+                        <pagination
+                          [items]="items"
+                          (changePage)="onChangePage($event)"
+                        ></pagination>
+
+                        <!-- End Pagination -->
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+
+                <!-- end col -->
+              </div>
+
+              <!-- end row -->
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>
+              <i class="ri-user-line me-1 align-middle"></i> Worker Books
+            </a>
+
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop"
+                          >
+                            <i
+                              class="bx bx-plus-circle align-middle fs-16 me-2"
+                            ></i
+                            >Create New
+                          </button>
+                        </div>
+
+                        <div class="col-sm-4"></div>
+
+                        <div class="col-sm-4">
+                          <div class="search-box">
+                            <!-- <input type="text" class="form-control search" placeholder="Search..." [(ngModel)]="service.searchTerm">
+
+                                      <i class="ri-search-line search-icon"></i> -->
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+
+                      <div class="table-responsive">
+                        <table class="table table-gridjs">
+                          <thead style="background-color: rgb(243, 243, 249)">
+                            <tr>
+                              <th
+                                style="width: 50%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('name')"
+                              >
+                                Group
+                              </th>
+
+                              <th
+                                style="width: 10%"
+                                class="sort"
+                                data-sort="code"
+                                (click)="onSort('isretirement')"
+                              >
+                                Retirement
+                              </th>
+
+                              <th style="width: 10%">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            <tr *ngFor="let data of booklistdata">
+                              <td>{{ data.name }}</td>
+
+                              <td>
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  [checked]="data.isretirement"
+                                />
+                              </td>
+
+                              <td>
+                                <button
+                                  type="button"
+                                  class="btn btn-success"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#staticBackdropEdit"
+                                  (click)="GetDataByID(data.id)"
+                                >
+                                  <i class="bx bx-pencil"></i>
+                                </button>
+                                &nbsp;
+
+                                <button
+                                  type="button"
+                                  class="btn btn-warning"
+                                  (click)="Delete(data.id)"
+                                >
+                                  <i class="bx bxs-trash-alt"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+
+                <!-- end col -->
+              </div>
+
+              <!-- end row -->
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="3">
+            <a ngbNavLink>
+              <i class="ri-question-answer-line align-middle me-1"></i>Worker
+              Batches
+            </a>
+
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            data-bs-toggle="modal"
+                            data-bs-target="#WBatchstaticBackdrop"
+                          >
+                            <i
+                              class="bx bx-plus-circle align-middle fs-16 me-2"
+                            ></i
+                            >Create New
+                          </button>
+                        </div>
+
+                        <div class="col-sm-4"></div>
+
+                        <div class="col-sm-4">
+                          <div class="search-box">
+                            <input
+                              type="text"
+                              class="form-control search"
+                              placeholder="Search..."
+                              [(ngModel)]="servicebatch.searchTerm"
+                            />
+
+                            <i class="ri-search-line search-icon"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+
+                      <div class="table-responsive">
+                        <table class="table table-gridjs">
+                          <thead style="background-color: rgb(243, 243, 249)">
+                            <tr>
+                              <th
+                                style="width: 10%"
+                                class="sort"
+                                data-sort="slno"
+                                (click)="onSort('slno')"
+                              >
+                                SL No
+                              </th>
+
+                              <th
+                                style="width: 20%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('name')"
+                              >
+                                Name
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('kamjaritype')"
+                              >
+                                Kamjari Type
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('shift')"
+                              >
+                                Default Shift
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="code"
+                                (click)="onSort('division')"
+                              >
+                                Devision
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="code"
+                                (click)="onSort('isoutsideworker')"
+                              >
+                                OutSide Worker
+                              </th>
+
+                              <th style="width: 10%">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            <tr *ngFor="let wbatchdata of batchlistdata">
+                              <td>{{ wbatchdata.slno }}</td>
+
+                              <td>{{ wbatchdata.name }}</td>
+
+                              <td>{{ wbatchdata.kamjaritype }}</td>
+
+                              <td>{{ wbatchdata.shift }}</td>
+
+                              <td>{{ wbatchdata.divisionname }}</td>
+
+                              <td>
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  [checked]="wbatchdata.isoutsideworker"
+                                />
+                              </td>
+
+                              <td>
+                                <button
+                                  type="button"
+                                  class="btn btn-success"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#EWBatchstaticBackdrop"
+                                  (click)="WBatchGetDataByID(wbatchdata.id)"
+                                >
+                                  <i class="bx bx-pencil"></i>
+                                </button>
+                                &nbsp;
+
+                                <button
+                                  type="button"
+                                  class="btn btn-warning"
+                                  (click)="Delete(wbatchdata.id)"
+                                >
+                                  <i class="bx bxs-trash-alt"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+
+                <!-- end col -->
+              </div>
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="4">
+            <a ngbNavLink>
+              <i class="ri-question-answer-line align-middle me-1"></i>Worker
+              Type
+            </a>
+
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <button
+                            type="button"
+                            disabled="true"
+                            class="btn btn-success"
+                            data-bs-toggle="modal"
+                          >
+                            <i
+                              class="bx bx-plus-circle align-middle fs-16 me-2"
+                            ></i
+                            >Create New
+                          </button>
+                        </div>
+
+                        <div class="col-sm-4"></div>
+
+                        <div class="col-sm-4">
+                          <div class="search-box">
+                            <input
+                              type="text"
+                              class="form-control search"
+                              placeholder="Search..."
+                              [(ngModel)]="serviceworkertype.searchTerm"
+                            />
+
+                            <i class="ri-search-line search-icon"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <br />
+
+                      <div class="table-responsive">
+                        <table class="table table-gridjs">
+                          <thead style="background-color: rgb(243, 243, 249)">
+                            <tr>
+                              <th style="width: 15%" (click)="onSort('name')">
+                                Name
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                (click)="onSort('excludegardennameincard')"
+                              >
+                                Exclude Garden Name in Card
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                (click)="onSort('paidweeklyoff')"
+                              >
+                                Paid Weekly Off
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                (click)="onSort('paidholidayapplicable')"
+                              >
+                                Paid Holiday Applicable
+                              </th>
+
+                              <th
+                                style="width: 10%"
+                                (click)="onSort('pfapplicable')"
+                              >
+                                PF Applicable
+                              </th>
+
+                              <th
+                                style="width: 10%"
+                                (click)="onSort('deptallowance')"
+                              >
+                                Dept Allowance
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                (click)="onSort('otapplicable')"
+                              >
+                                OT Applicable
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                (click)="onSort('attendenceincentive')"
+                              >
+                                Attd Incentive
+                              </th>
+
+                              <th style="width: 10%">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            @for (
+                              workertypedata of gridworkertypeList$ | async;
+                              track $index
+                            ) {
+                              <tr>
+                                <td>
+                                  <ngb-highlight
+                                    [result]="workertypedata.name"
+                                    [term]="workertypedata.name"
+                                  ></ngb-highlight>
+                                </td>
+
+                                <td>
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="
+                                      workertypedata.excludegardennameincard
+                                    "
+                                  />
+                                </td>
+
+                                <td>
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="workertypedata.paidweeklyoff"
+                                  />
+                                </td>
+
+                                <td>
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="
+                                      workertypedata.paidholidayapplicable
+                                    "
+                                  />
+                                </td>
+
+                                <td>
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="workertypedata.pfapplicable"
+                                  />
+                                </td>
+
+                                <td>
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="workertypedata.deptallowance"
+                                  />
+                                </td>
+
+                                <td>
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="workertypedata.otapplicable"
+                                  />
+                                </td>
+
+                                <td>
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    [checked]="
+                                      workertypedata.attendenceincentive
+                                    "
+                                  />
+                                </td>
+
+                                <!-- <td><ngb-highlight [result]="data.isactive.toString()" [term]="service.searchTerm"></ngb-highlight></td> -->
+
+                                <td>
+                                  <button
+                                    type="button"
+                                    class="btn btn-success"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#EWBatchstaticBackdrop"
+                                    (click)="
+                                      WBatchGetDataByID(workertypedata.id)
+                                    "
+                                  >
+                                    <i class="bx bx-pencil"></i>
+                                  </button>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div
+                        class="row justify-content-md-between align-items-md-center"
+                      >
+                        <div class="col col-sm-6">
+                          <div
+                            class="dataTables_info mb-2"
+                            id="tickets-table_info"
+                            role="status"
+                            aria-live="polite"
+                          >
+                            Showing
+
+                            {{ serviceworkertype.startIndex }} to
+
+                            {{ serviceworkertype.endIndex }} of
+                            {{ serviceworkertype.totalRecords }}
+
+                            entries
+                          </div>
+                        </div>
+
+                        <!-- Pagination -->
+
+                        <div class="col col-sm-6">
+                          <div
+                            class="text-sm-right float-end gridjs-pagination"
+                          >
+                            <ngb-pagination
+                              [collectionSize]="(pagetotalworkertype$ | async)!"
+                              [(page)]="serviceworkertype.page"
+                              [pageSize]="serviceworkertype.pageSize"
+                            >
+                            </ngb-pagination>
+                          </div>
+                        </div>
+
+                        <!-- End Pagination -->
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+
+                <!-- end col -->
+              </div>
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="5">
+            <a ngbNavLink>
+              <i class="ri-question-answer-line align-middle me-1"></i>Leave
+            </a>
+
+            <ng-template ngbNavContent>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            data-bs-toggle="modal"
+                            data-bs-target="#wbleave"
+                          >
+                            <i
+                              class="bx bx-plus-circle align-middle fs-16 me-2"
+                            ></i
+                            >Create New
+                          </button>
+                        </div>
+
+                        <div class="col-sm-4"></div>
+
+                        <div class="col-sm-4">
+                          <!-- <div class="search-box">
+
+                                  <input type="text" class="form-control search" placeholder="Search..." [(ngModel)]="workerleveservice.searchTerm">
+
+                                  <i class="ri-search-line search-icon"></i>
+
+                                </div> -->
+                        </div>
+                      </div>
+                      <br />
+
+                      <div class="table-responsive">
+                        <table class="table table-gridjs">
+                          <thead style="background-color: rgb(243, 243, 249)">
+                            <tr>
+                              <!-- <th style="width: 10%;" class="sort" data-sort="slno" (click)="onSort('slno')">SL No</th> -->
+
+                              <th
+                                style="width: 20%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('name')"
+                              >
+                                Leave Code
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('kamjaritype')"
+                              >
+                                Attendance
+                              </th>
+
+                              <th
+                                style="width: 15%"
+                                class="sort"
+                                data-sort="name"
+                                (click)="onSort('shift')"
+                              >
+                                Max Allowed Leaves
+                              </th>
+
+                              <!-- <th style="width: 15%;" class="sort" data-sort="code" (click)="onSort('division')">Devision</th>
+
+                                      <th style="width: 15%;" class="sort" data-sort="code" (click)="onSort('isoutsideworker')">OutSide Worker</th> -->
+
+                              <th style="width: 10%">Action</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            @for (
+                              wleavedata of gridworkerleaveList$ | async;
+                              track $index
+                            ) {
+                              <tr>
+                                <!-- <td><ngb-highlight [result]="wleavedata.slno.toString()" [term]="workerleveservice.searchTerm"></ngb-highlight></td> -->
+
+                                <td>
+                                  <ngb-highlight
+                                    [result]="wleavedata.leavecode"
+                                    [term]="workerleveservice.searchTerm"
+                                  ></ngb-highlight>
+                                </td>
+
+                                <td>
+                                  <ngb-highlight
+                                    [result]="wleavedata.attendancename"
+                                    [term]="workerleveservice.searchTerm"
+                                  ></ngb-highlight>
+                                </td>
+
+                                <td>
+                                  <ngb-highlight
+                                    [result]="wleavedata.maxallowed.toString()"
+                                    [term]="workerleveservice.searchTerm"
+                                  ></ngb-highlight>
+                                </td>
+
+                                <!-- <td><ngb-highlight [result]="wbatchdata.divisionname" [term]="servicebatch.searchTerm"></ngb-highlight></td>
+
+                                      <td><input class="form-check-input" type="checkbox" [checked]="wbatchdata.isoutsideworker"></td> -->
+
+                                <td>
+                                  <button
+                                    type="button"
+                                    class="btn btn-success"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#Ewbleave"
+                                    (click)="WLeaveGetDataByID(wleavedata.id)"
+                                  >
+                                    <i class="bx bx-pencil"></i>
+                                  </button>
+                                  &nbsp;
+
+                                  <button
+                                    type="button"
+                                    class="btn btn-warning"
+                                    (click)="WLeaveDelete(wleavedata.id)"
+                                  >
+                                    <i class="bx bxs-trash-alt"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div
+                        class="row justify-content-md-between align-items-md-center"
+                      >
+                        <div class="col col-sm-6">
+                          <div
+                            class="dataTables_info mb-2"
+                            id="tickets-table_info"
+                            role="status"
+                            aria-live="polite"
+                          >
+                            Showing
+
+                            {{ workerleveservice.startIndex }} to
+
+                            {{ workerleveservice.endIndex }} of
+                            {{ workerleveservice.totalRecords }}
+
+                            entries
+                          </div>
+                        </div>
+
+                        <!-- Pagination -->
+
+                        <div class="col col-sm-6">
+                          <div
+                            class="text-sm-right float-end gridjs-pagination"
+                          >
+                            <!-- <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="servicebatch.page" [pageSize]="servicebatch.pageSize">
+
+                                  </ngb-pagination> -->
+                          </div>
+                        </div>
+
+                        <!-- End Pagination -->
+                      </div>
+                    </div>
+                    <!-- end card-body -->
+                  </div>
+                  <!-- end card -->
+                </div>
+
+                <!-- end col -->
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+
+        <div class="tab-content text-muted">
+          <div [ngbNavOutlet]="BorderTop"></div>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+  </div>
+  <!--end col-->
+</div>
+
+<!-- Worker Book Start -->
+<form [formGroup]="MasterForm">
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create Book
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" formControlName="Name" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Code:</label>
+              <input type="text" class="form-control" formControlName="Code" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Retirement:</label
+              >&nbsp;&nbsp;
+              <input
+                style="margin-top: 12px"
+                class="form-check-input"
+                type="checkbox"
+                formControlName="Retirement"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Create()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="EMasterForm">
+  <input type="hidden" formControlName="EID" />
+  <div
+    class="modal fade"
+    id="staticBackdropEdit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-pencil"></i> Edit Book
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" formControlName="EName" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Code:</label>
+              <input type="text" class="form-control" formControlName="ECode" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Retirement:</label
+              >
+              &nbsp;
+              <input
+                style="margin-top: 12px"
+                class="form-check-input"
+                type="checkbox"
+                formControlName="ERetirement"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Update()" class="btn btn-success">
+            <i class="bx bx-check"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- Worker Book End -->
+
+<!-- Worker Batch Start -->
+<form [formGroup]="WBatchMasterForm">
+  <div
+    class="modal fade"
+    id="WBatchstaticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create Batch
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >Batch Name:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="BATCHNAME"
+              />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Kamjari Type:</label
+              >
+              <select class="form-select" formControlName="KAMJARITYPEID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Default Shit:</label
+              >&nbsp;&nbsp;
+              <select class="form-select" formControlName="SHIFTID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of shiftlist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Division</label
+              >&nbsp;&nbsp;
+              <select class="form-select" formControlName="DIVISIONID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of divisionlist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Outside Worker:</label
+              >&nbsp;&nbsp;
+              <input
+                style="margin-top: 12px"
+                class="form-check-input"
+                type="checkbox"
+                formControlName="ISOUTSIDEWORKER"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button
+            type="button"
+            (click)="WBatchCreate()"
+            class="btn btn-success"
+          >
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- Worker Batch End -->
+<!-- Worker leave Start -->
+<form [formGroup]="WLMASTER">
+  <div
+    class="modal fade"
+    id="wbleave"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create Leave
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >Leave Code:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="LEAVECODE"
+              />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Attendance:</label
+              >
+              <select class="form-select" formControlName="ATTENDENCE">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of attendancelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Max Allowed Leaves:</label
+              >&nbsp;&nbsp;
+              <input
+                type="text"
+                class="form-control"
+                formControlName="MAXALLOWED"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="WLCreate()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<form [formGroup]="EWLMASTER">
+  <input type="hidden" formControlName="EID" />
+  <div
+    class="modal fade"
+    id="Ewbleave"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Edit Leave
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label"
+                >Leave Code:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="ELEAVECODE"
+              />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Attendance:</label
+              >
+              <select class="form-select" formControlName="EATTENDENCE">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of attendancelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Max Allowed Leaves:</label
+              >&nbsp;&nbsp;
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EMAXALLOWED"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button
+            type="button"
+            (click)="UpdateWLCreate()"
+            class="btn btn-success"
+          >
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- Worker leave End -->
+
+<form [formGroup]="EWBatchMasterForm">
+  <div
+    class="modal fade"
+    id="EWBatchstaticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Edit Batch
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <input type="hidden" formControlName="EBATCHID" />
+              <label for="customer-name" class="col-form-label"
+                >Batch Name:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="EBATCHNAME"
+              />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Kamjari Type:</label
+              >
+              <select class="form-select" formControlName="EKAMJARITYPEID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Default Shit:</label
+              >&nbsp;&nbsp;
+              <select class="form-select" formControlName="ESHIFTID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of shiftlist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Division</label
+              >&nbsp;&nbsp;
+              <select class="form-select" formControlName="EDIVISIONID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of divisionlist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label"
+                >Outside Worker:</label
+              >&nbsp;&nbsp;
+              <input
+                style="margin-top: 12px"
+                class="form-check-input"
+                type="checkbox"
+                formControlName="EISOUTSIDEWORKER"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button
+            type="button"
+            (click)="WBatchUpdate()"
+            class="btn btn-success"
+          >
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Worker Management Start -->
+<form [formGroup]="WorkerManagementMasterForm">
+  <ng-template #fullLgDataModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalFullscreenLgLabel">
+          <i class="bx bx-plus-medical"></i> Worker Management
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" formControlName="NAME" />
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Worker Code:</label
+            >
+            <input type="text" class="form-control" formControlName="CODE" />
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">PF Number:</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="PFNumber"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Division:</label>
+            <select class="form-select" formControlName="DIVISIONID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of divisionlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Employee Number:</label
+            >
+            <input type="text" class="form-control" formControlName="EMPNO" />
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Gender:</label>
+            <select class="form-select" formControlName="GENDERID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of genderlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Worker Type:</label
+            >
+            <select class="form-select" formControlName="WORKERTYPEID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of workertypelist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <!-- <div class="col-sm-4">
+              <label for="customer-name" class="col-form-label">Worker Subtype:</label>
+              <input type="text" class="form-control" formControlName="Code">
+            </div> -->
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Book Name:</label>
+            <select class="form-select" formControlName="BOOKID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of booklist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Default Plucking Batch:</label
+            >
+            <select class="form-select" formControlName="PLUCKINGBATCHID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of batchlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-sm-3">
+              <label for="customer-name" class="col-form-label">Default Plucking Batch:</label>
+              <select class="form-select" formControlName="BOOKID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                    {{x.name}}
+                </option>
+            </select>
+            </div>
+  
+            <div class="col-sm-3">
+              <label for="customer-name" class="col-form-label">Default Batch:</label>  
+              <select class="form-select" formControlName="BOOKID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                    {{x.name}}
+                </option>
+            </select>
+            </div>
+          </div> -->
+
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Default Batch:</label
+            >
+            <select class="form-select" formControlName="BATCHID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of batchlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Default Kamjari:</label
+            >
+            <select class="form-select" formControlName="KAMJARIID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Date of Birth:</label
+            >
+            <input
+              class="form-control flatpickr-input"
+              type="date"
+              mwlFlatpickr
+              [defaultValue]="'25-01-2023'"
+              altFormat="d M, Y"
+              dateFormat="d M, Y"
+              formControlName="DATEOFBIRTH"
+            />
+            <!-- <input type="text" class="form-control" formControlName="PFNumber"> -->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="customer-name" class="col-form-label"
+              >Contact Number:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="CONTACTNUMBER"
+            />
+          </div>
+
+          <div class="col-sm-6">
+            <label for="customer-name" class="col-form-label">Address:</label>
+            <input type="text" class="form-control" formControlName="ADDRESS" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="customer-name" hidden class="col-form-label"
+              >Worker Group:</label
+            >
+            <select class="form-select" hidden formControlName="WORKGROUP">
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let x of workergrouplist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="customer-name" hidden class="col-form-label"
+              >Job Station:</label
+            >
+            <select class="form-select" hidden formControlName="JOBSTATION">
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let x of jobstationlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label"
+              >Disable Disincentive:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="DISABLEDDISINCENTIVEID"
+            />
+          </div>
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label"
+              >Monthly Rated:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="MONTHLYRATED"
+            />
+          </div>
+
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label"
+              >Isactive Worker:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="ESSENTIALWORKER"
+            />
+          </div>
+
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label">Retired:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="RETIREDID"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a
+          href="javascript:void(0);"
+          class="btn btn-link link-success fw-medium"
+          data-bs-dismiss="modal"
+          (click)="modal.close('Close click')"
+          ><i class="ri-close-line me-1 align-middle"></i> Close</a
+        >
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="WorkerManagementCreate()"
+          class="btn btn-success"
+        >
+          <i class="bx bx-check"></i>Save changes
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</form>
+
+<form [formGroup]="EWorkerManagementMasterForm">
+  <ng-template #efullLgDataModal let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EexampleModalFullscreenLgLabel">
+          <i class="bx bx-pencil"></i> Edit Worker Management
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <input
+            type="hidden"
+            class="form-control"
+            formControlName="EWMWORKERID"
+          />
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" formControlName="EWMNAME" />
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Worker Code:</label
+            >
+            <input type="text" class="form-control" formControlName="EWMCODE" />
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">PF Number:</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="EWMPFNumber"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Division:</label>
+            <select class="form-select" formControlName="EWMDIVISIONID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of divisionlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Employee Number:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="EWMEMPNO"
+            />
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Gender:</label>
+            <select class="form-select" formControlName="EWMGENDERID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of genderlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Worker Type:</label
+            >
+            <select class="form-select" formControlName="EWMWORKERTYPEID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of workertypelist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <!-- <div class="col-sm-4">
+              <label for="customer-name" class="col-form-label">Worker Subtype:</label>
+              <input type="text" class="form-control" formControlName="Code">
+            </div> -->
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label">Book Name:</label>
+            <select class="form-select" formControlName="EWMBOOKID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of booklist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Default Plucking Batch:</label
+            >
+            <select class="form-select" formControlName="EWMPLUCKINGBATCHID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of batchlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-sm-3">
+              <label for="customer-name" class="col-form-label">Default Plucking Batch:</label>
+              <select class="form-select" formControlName="BOOKID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                    {{x.name}}
+                </option>
+            </select>
+            </div>
+  
+            <div class="col-sm-3">
+              <label for="customer-name" class="col-form-label">Default Batch:</label>  
+              <select class="form-select" formControlName="BOOKID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                    {{x.name}}
+                </option>
+            </select>
+            </div>
+          </div> -->
+
+        <div class="row">
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Default Batch:</label
+            >
+            <select class="form-select" formControlName="EWMBATCHID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of batchlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Default Kamjari:</label
+            >
+            <select class="form-select" formControlName="EWMKAMJARIID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of kamjarilist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <label for="customer-name" class="col-form-label"
+              >Date of Birth:</label
+            >
+            <input
+              class="form-control flatpickr-input"
+              type="date"
+              mwlFlatpickr
+              [defaultValue]="'25-01-2023'"
+              altFormat="d M, Y"
+              dateFormat="d M, Y"
+              formControlName="EWMDATEOFBIRTH"
+            />
+            <!-- <input type="text" class="form-control" formControlName="PFNumber"> -->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="customer-name" class="col-form-label"
+              >Contact Number:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              formControlName="EWMCONTACTNUMBER"
+            />
+          </div>
+
+          <div class="col-sm-6">
+            <label for="customer-name" class="col-form-label">Address:</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="EWMADDRESS"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="customer-name" hidden class="col-form-label"
+              >Worker Group:</label
+            >
+            <select class="form-select" hidden formControlName="EWORKGROUP">
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let x of workergrouplist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="customer-name" hidden class="col-form-label"
+              >Job Station:</label
+            >
+            <select class="form-select" hidden formControlName="EJOBSTATION">
+              <option [value]="0">--Select--</option>
+              <option *ngFor="let x of jobstationlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label"
+              >Disable Disincentive:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="EWMDISABLEDDISINCENTIVEID"
+            />
+          </div>
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label"
+              >Monthly Rated:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="EWMMONTHLYRATED"
+            />
+          </div>
+
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label"
+              >Isactive Worker:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="EWMESSENTIALWORKER"
+            />
+          </div>
+
+          <div class="col-sm-3">
+            <label for="customer-name" class="col-form-label">Retired:</label
+            >&nbsp;
+            <input
+              style="margin-top: 12px"
+              class="form-check-input"
+              type="checkbox"
+              formControlName="EWMRETIREDID"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a
+          href="javascript:void(0);"
+          class="btn btn-link link-success fw-medium"
+          data-bs-dismiss="modal"
+          (click)="modal.close('Close click')"
+          ><i class="ri-close-line me-1 align-middle"></i> Close</a
+        >
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="WorkerManagementUpdate()"
+          class="btn btn-success"
+        >
+          <i class="bx bx-check"></i>Update
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</form>

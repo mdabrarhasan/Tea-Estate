@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card wwad-card">
+      <!-- Header -->
+      <div class="card-header wwad-header">
+        <h5 class="card-title mb-0 wwad-title">
+          <i class="bx bxs-leaf"></i> Worker Wise Attendance Details
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <!-- ================= TOP BAR: date range + actions ================= -->
+        <div class="wwad-topbar" [formGroup]="DateForm">
+          <div class="wwad-dates">
+            <div class="wwad-date-field">
+              <label>From</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="FROMDATE"
+              />
+            </div>
+            <div class="wwad-date-field">
+              <label>To</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="TODATE"
+              />
+            </div>
+          </div>
+
+          <div class="wwad-actions">
+            <button
+              type="button"
+              class="btn wwad-btn-generate"
+              (click)="generate()"
+            >
+              <i class="bx bx-play-circle"></i> Generate
+            </button>
+            <button
+              type="button"
+              class="btn wwad-btn-clear"
+              (click)="clearAll()"
+            >
+              <i class="bx bx-eraser"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= BODY: left rail + center panel ================= -->
+        <div class="wwad-body">
+          <!-- LEFT RAIL -->
+          <div class="wwad-rail">
+            <button
+              *ngFor="let c of categories"
+              type="button"
+              class="wwad-rail-btn"
+              [class.active]="c.key === activeKey"
+              (click)="selectCategory(c.key)"
+            >
+              <span class="wwad-rail-label">
+                <i class="bx {{ c.icon }}"></i> {{ c.label }}
+              </span>
+              <span class="wwad-badge" *ngIf="selectedCount(c.key) > 0">
+                {{ selectedCount(c.key) }}
+              </span>
+            </button>
+          </div>
+
+          <!-- CENTER PANEL -->
+          <div class="wwad-panel">
+            <!-- prompt shown when no category is selected -->
+            <div class="wwad-state wwad-panel-empty" *ngIf="!active">
+              <i class="bx bx-left-arrow-alt"></i>
+              Select a filter on the left to load its options.
+            </div>
+
+            <ng-container *ngIf="active">
+              <!-- panel toolbar -->
+              <div class="wwad-panel-head">
+                <div class="wwad-panel-title">
+                  <i class="bx {{ active.icon }}"></i> {{ active.label }}
+                </div>
+                <div class="wwad-panel-search">
+                  <i class="bx bx-search"></i>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search {{ active.label | lowercase }}..."
+                    [(ngModel)]="filterText"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+              </div>
+
+              <!-- select-all bar -->
+              <div class="wwad-selectall" *ngIf="visibleItems.length > 0">
+                <label class="wwad-check">
+                  <input
+                    type="checkbox"
+                    [checked]="allVisibleChecked()"
+                    (change)="toggleAllVisible()"
+                  />
+                  <span>Select all {{ visibleItems.length }} shown</span>
+                </label>
+              </div>
+
+              <!-- list -->
+              <div class="wwad-list">
+                <div class="wwad-state" *ngIf="active.loading">
+                  <i class="bx bx-loader-alt bx-spin"></i> Loading
+                  {{ active.label | lowercase }}...
+                </div>
+
+                <div
+                  class="wwad-state"
+                  *ngIf="
+                    !active.loading &&
+                    active.loaded &&
+                    visibleItems.length === 0
+                  "
+                >
+                  <i class="bx bx-folder-open"></i>
+                  No {{ active.label | lowercase }} found.
+                </div>
+
+                <label
+                  class="wwad-check wwad-row"
+                  *ngFor="let item of visibleItems"
+                  [class.checked]="isChecked(item.id)"
+                >
+                  <input
+                    type="checkbox"
+                    [checked]="isChecked(item.id)"
+                    (change)="toggle(item.id)"
+                  />
+                  <span>{{ item.name }}</span>
+                </label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <!-- end wwad-body -->
+      </div>
+    </div>
+  </div>
+</div>

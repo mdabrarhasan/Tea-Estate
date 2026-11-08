@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card dad-card">
+      <!-- Header -->
+      <div class="card-header dad-header">
+        <h5 class="card-title mb-0 dad-title">
+          <i class="bx bxs-leaf"></i> Daily Attendance Details
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <!-- ================= TOP BAR: date range + actions ================= -->
+        <div class="dad-topbar" [formGroup]="DateForm">
+          <div class="dad-dates">
+            <div class="dad-date-field">
+              <label>From</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="FROMDATE"
+              />
+            </div>
+            <div class="dad-date-field">
+              <label>To</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="TODATE"
+              />
+            </div>
+          </div>
+
+          <div class="dad-actions">
+            <button
+              type="button"
+              class="btn dad-btn-generate"
+              (click)="generate()"
+            >
+              <i class="bx bx-play-circle"></i> Generate
+            </button>
+            <button
+              type="button"
+              class="btn dad-btn-clear"
+              (click)="clearAll()"
+            >
+              <i class="bx bx-eraser"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= BODY: left rail + center panel ================= -->
+        <div class="dad-body">
+          <!-- LEFT RAIL -->
+          <div class="dad-rail">
+            <button
+              *ngFor="let c of categories"
+              type="button"
+              class="dad-rail-btn"
+              [class.active]="c.key === activeKey"
+              (click)="selectCategory(c.key)"
+            >
+              <span class="dad-rail-label">
+                <i class="bx {{ c.icon }}"></i> {{ c.label }}
+              </span>
+              <span class="dad-badge" *ngIf="selectedCount(c.key) > 0">
+                {{ selectedCount(c.key) }}
+              </span>
+            </button>
+          </div>
+
+          <!-- CENTER PANEL -->
+          <div class="dad-panel">
+            <!-- prompt shown when no category is selected -->
+            <div class="dad-state dad-panel-empty" *ngIf="!active">
+              <i class="bx bx-left-arrow-alt"></i>
+              Select a filter on the left to load its options.
+            </div>
+
+            <ng-container *ngIf="active">
+              <!-- panel toolbar -->
+              <div class="dad-panel-head">
+                <div class="dad-panel-title">
+                  <i class="bx {{ active.icon }}"></i> {{ active.label }}
+                </div>
+                <div class="dad-panel-search">
+                  <i class="bx bx-search"></i>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search {{ active.label | lowercase }}..."
+                    [(ngModel)]="filterText"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+              </div>
+
+              <!-- select-all bar -->
+              <div class="dad-selectall" *ngIf="visibleItems.length > 0">
+                <label class="dad-check">
+                  <input
+                    type="checkbox"
+                    [checked]="allVisibleChecked()"
+                    (change)="toggleAllVisible()"
+                  />
+                  <span>Select all {{ visibleItems.length }} shown</span>
+                </label>
+              </div>
+
+              <!-- list -->
+              <div class="dad-list">
+                <div class="dad-state" *ngIf="active.loading">
+                  <i class="bx bx-loader-alt bx-spin"></i> Loading
+                  {{ active.label | lowercase }}...
+                </div>
+
+                <div
+                  class="dad-state"
+                  *ngIf="
+                    !active.loading &&
+                    active.loaded &&
+                    visibleItems.length === 0
+                  "
+                >
+                  <i class="bx bx-folder-open"></i>
+                  No {{ active.label | lowercase }} found.
+                </div>
+
+                <label
+                  class="dad-check dad-row"
+                  *ngFor="let item of visibleItems"
+                  [class.checked]="isChecked(item.id)"
+                >
+                  <input
+                    type="checkbox"
+                    [checked]="isChecked(item.id)"
+                    (change)="toggle(item.id)"
+                  />
+                  <span>{{ item.name }}</span>
+                </label>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <!-- end dad-body -->
+      </div>
+    </div>
+  </div>
+</div>

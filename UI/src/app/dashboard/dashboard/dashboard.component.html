@@ -1,0 +1,344 @@
+<div style="font-family: calibri; color: black">
+  <!-- Header + date picker -->
+  <div
+    class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2"
+  >
+    <h5
+      class="mb-0 d-flex align-items-center gap-2 px-3 py-1 rounded fw-semibold"
+      style="background-color: #daf4f0; color: #0ab39c"
+    >
+      <i class="bx bx-leaf"></i> Garden Overview
+    </h5>
+    <div class="d-flex align-items-center gap-2 me-3">
+      <i class="bx bx-calendar text-muted"></i>
+      <input
+        type="date"
+        class="form-control form-control-sm"
+        style="width: auto"
+        [(ngModel)]="selectedDate"
+        (change)="onDateChange()"
+      />
+    </div>
+  </div>
+
+  <ng-container *ngIf="stats">
+    <!-- Detail panels: Present / Absent / Overtime -->
+    <div class="row g-3">
+      <!-- Present -->
+      <div class="col-xl-6 col-md-12">
+        <div class="card h-100 mb-0">
+          <div class="card-header d-flex align-items-center gap-2 py-2 hdr">
+            <i class="bx bx-user-check text-success"></i>
+            <h6 class="card-title mb-0">Present</h6>
+          </div>
+          <div class="card-body py-3">
+            <div class="pill-grid">
+              <div class="cap-pill">
+                <span class="cap-label">Permanent · Plucker</span>
+                <span class="cap-value bg-success-subtle text-success">{{
+                  stats.permpresentplk
+                }}</span>
+              </div>
+              <div class="cap-pill">
+                <span class="cap-label">Permanent · Non-plucker</span>
+                <span class="cap-value bg-success-subtle text-success">{{
+                  stats.permpresentnonplk
+                }}</span>
+              </div>
+              <div class="cap-pill">
+                <span class="cap-label">Casual · Plucker</span>
+                <span class="cap-value bg-success-subtle text-success">{{
+                  stats.casualpresentplk
+                }}</span>
+              </div>
+              <div class="cap-pill">
+                <span class="cap-label">Casual · Non-plucker</span>
+                <span class="cap-value bg-success-subtle text-success">{{
+                  stats.casualpresentnonplk
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Absent -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card h-100 mb-0">
+          <div class="card-header d-flex align-items-center gap-2 py-2 hdr">
+            <i class="bx bx-user-x text-danger"></i>
+            <h6 class="card-title mb-0">Absent</h6>
+          </div>
+          <div class="card-body py-3">
+            <div class="d-flex flex-column gap-2">
+              <div class="cap-pill">
+                <span class="cap-label">Permanent</span>
+                <span class="cap-value bg-danger-subtle text-danger">{{
+                  stats.permabsent
+                }}</span>
+              </div>
+              <div class="cap-pill">
+                <span class="cap-label">Casual</span>
+                <span class="cap-value bg-danger-subtle text-danger">{{
+                  stats.casualabsent
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overtime -->
+      <div class="col-xl-3 col-md-6">
+        <div class="card h-100 mb-0">
+          <div class="card-header d-flex align-items-center gap-2 py-2 hdr">
+            <i class="bx bx-time-five text-info"></i>
+            <h6 class="card-title mb-0">Overtime</h6>
+          </div>
+          <div class="card-body py-3">
+            <div class="d-flex flex-column gap-2">
+              <div class="cap-pill">
+                <span class="cap-label">Permanent</span>
+                <span class="cap-value bg-info-subtle text-info">{{
+                  stats.permot
+                }}</span>
+              </div>
+              <div class="cap-pill">
+                <span class="cap-label">Casual</span>
+                <span class="cap-value bg-info-subtle text-info">{{
+                  stats.casualot
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top metric cards -->
+    <div class="row g-3 mt-1">
+      <!-- Plucked Today -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card card-animate mb-0 h-100">
+          <div class="card-body p-3">
+            <div class="d-flex align-items-center mb-1">
+              <p
+                class="text-uppercase fw-medium text-muted mb-0 flex-grow-1"
+                style="font-size: 12px"
+              >
+                Plucked Today
+              </p>
+              <span
+                class="avatar-title bg-success-subtle rounded"
+                style="width: 26px; height: 26px"
+              >
+                <i
+                  class="bx bx-basket text-success"
+                  style="font-size: 14px"
+                ></i>
+              </span>
+            </div>
+            <h4 class="fw-semibold mb-0" style="font-size: 15px">
+              {{ stats.todayplk | number: "1.0-2" }}
+            </h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plucked Yesterday -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <div class="card card-animate mb-0 h-100">
+          <div class="card-body p-3">
+            <div class="d-flex align-items-center mb-1">
+              <p
+                class="text-uppercase fw-medium text-muted mb-0 flex-grow-1"
+                style="font-size: 12px"
+              >
+                Plucked Yesterday
+              </p>
+              <span
+                class="avatar-title bg-secondary-subtle rounded"
+                style="width: 26px; height: 26px"
+              >
+                <i
+                  class="bx bx-history text-secondary"
+                  style="font-size: 14px"
+                ></i>
+              </span>
+            </div>
+            <h4 class="fw-semibold mb-0" style="font-size: 15px">
+              {{ stats.prevdayplk | number: "1.0-2" }}
+            </h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Change vs Yesterday -->
+      <div class="col-xl-2 col-md-4 col-sm-6">
+        <div
+          class="card card-animate mb-0 h-100"
+          [ngClass]="isUp ? 'bg-success-subtle' : 'bg-danger-subtle'"
+        >
+          <div class="card-body p-3">
+            <div class="d-flex align-items-center mb-1">
+              <p
+                class="text-uppercase fw-medium text-muted mb-0 flex-grow-1"
+                style="font-size: 12px"
+              >
+                Change vs Yesterday
+              </p>
+              <span
+                class="avatar-title rounded"
+                [ngClass]="isUp ? 'bg-success-subtle' : 'bg-danger-subtle'"
+                style="width: 26px; height: 26px"
+              >
+                <i
+                  class="bx"
+                  [ngClass]="
+                    isUp
+                      ? 'bx-trending-up text-success'
+                      : 'bx-trending-down text-danger'
+                  "
+                  style="font-size: 14px"
+                ></i>
+              </span>
+            </div>
+            <h4
+              class="fw-semibold mb-0"
+              [ngClass]="isUp ? 'text-success' : 'text-danger'"
+              style="font-size: 15px"
+            >
+              {{ isUp ? "+" : "" }}{{ plkDiff | number: "1.0-2" }} ({{
+                isUp ? "+" : ""
+              }}{{ plkPct | number: "1.1-1" }}%)
+            </h4>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section-wise Plucking -->
+      <div class="col-xl-6 col-md-12">
+        <div class="card card-animate mb-0 h-100">
+          <div class="card-body p-3">
+            <div class="d-flex align-items-center mb-2">
+              <p
+                class="text-uppercase fw-medium text-muted mb-0 flex-grow-1"
+                style="font-size: 12px"
+              >
+                Section-wise Plucking Today (kg)
+              </p>
+              <span
+                class="avatar-title bg-success-subtle rounded"
+                style="width: 26px; height: 26px"
+              >
+                <i
+                  class="bx bx-map-alt text-success"
+                  style="font-size: 14px"
+                ></i>
+              </span>
+            </div>
+
+            <div class="sec-wrap" [ngClass]="'sec-' + sectionSize">
+              <div class="sec-pill" *ngFor="let s of sections">
+                <span class="sec-code">{{ s.sectioncode }}</span>
+                <span class="sec-qty">{{
+                  s.pluckedqty | number: "1.0-2"
+                }}</span>
+              </div>
+              <div
+                *ngIf="!sections.length"
+                class="text-muted"
+                style="font-size: 15px"
+              >
+                No section plucking recorded for this date.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance pie -->
+    <div class="row g-3 mt-1">
+      <div class="col-xl-6">
+        <div class="card mb-0">
+          <div class="card-header align-items-center d-flex hdr">
+            <h6
+              class="card-title mb-0 flex-grow-1"
+              style="font-family: calibri"
+            >
+              Plucking Trend — Last 7 Days
+            </h6>
+          </div>
+          <div class="card-body">
+            <apx-chart
+              *ngIf="trendChart"
+              [series]="trendChart.series"
+              [chart]="trendChart.chart"
+              [plotOptions]="trendChart.plotOptions"
+              [colors]="trendChart.colors"
+              [dataLabels]="trendChart.dataLabels"
+              [xaxis]="trendChart.xaxis"
+              [yaxis]="trendChart.yaxis"
+              [grid]="trendChart.grid"
+              [tooltip]="trendChart.tooltip"
+              [fill]="trendChart.fill"
+              dir="ltr"
+            >
+            </apx-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <div class="card mb-0">
+          <div class="card-header align-items-center d-flex hdr">
+            <h6
+              class="card-title mb-0 flex-grow-1"
+              style="font-family: calibri"
+            >
+              Attendance
+            </h6>
+          </div>
+          <div class="card-body">
+            <div class="position-relative">
+              <apx-chart
+                *ngIf="simplePieChart"
+                [series]="simplePieChart.series"
+                [chart]="simplePieChart.chart"
+                [labels]="simplePieChart.labels"
+                [colors]="simplePieChart.colors"
+                [legend]="simplePieChart.legend"
+                [dataLabels]="simplePieChart.dataLabels"
+                [stroke]="simplePieChart.stroke"
+                [plotOptions]="simplePieChart.plotOptions"
+                [tooltip]="simplePieChart.tooltip"
+                [responsive]="simplePieChart.responsive"
+                dir="ltr"
+              >
+              </apx-chart>
+
+              <div
+                class="position-absolute top-50 start-50 translate-middle text-center"
+                style="pointer-events: none; margin-top: -20px"
+              >
+                <div class="text-muted" style="font-size: 13px">Total</div>
+                <div
+                  class="fw-semibold"
+                  style="font-size: 26px; color: #495057"
+                >
+                  {{ pieTotal }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="text-center text-muted py-4">
+    <i class="bx bx-loader bx-spin fs-3"></i>
+    <p class="mb-0">Loading dashboard…</p>
+  </div>
+</div>

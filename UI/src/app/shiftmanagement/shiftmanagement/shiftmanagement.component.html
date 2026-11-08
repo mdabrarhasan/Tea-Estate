@@ -1,0 +1,258 @@
+<div class="card ribbon-box border shadow-none mb-lg-0">
+  <div class="card-body text-muted">
+    <div class="ribbon-three ribbon-three-success">
+      <span
+        style="font-family: calibri; font-weight: bolder; letter-spacing: 5px"
+        >SHIFT</span
+      >
+    </div>
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                  *hasPermission="'insert'"
+                >
+                  <i class="bx bx-plus-circle align-middle fs-16 me-2"></i
+                  >Create New
+                </button>
+              </div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4">
+                <div class="search-box">
+                  <input
+                    type="text"
+                    class="form-control search"
+                    placeholder="Search..."
+                    [(ngModel)]="searchText"
+                    (input)="filterData()"
+                  />
+                  <i class="ri-search-line search-icon"></i>
+                </div>
+              </div>
+            </div>
+            <br />
+
+            <div class="table-responsive">
+              <table class="table table-gridjs">
+                <thead style="background-color: rgb(243, 243, 249)">
+                  <tr>
+                    <th style="width: 20%">
+                      <a (click)="sortBy('name')"
+                        >Name {{ sortIcon("name") }}</a
+                      >
+                    </th>
+                    <th style="width: 20%">
+                      <a (click)="sortBy('code')"
+                        >Code {{ sortIcon("code") }}</a
+                      >
+                    </th>
+                    <th style="width: 30%">
+                      <a (click)="sortBy('kamjname')"
+                        >Kamjari {{ sortIcon("kamjname") }}</a
+                      >
+                    </th>
+                    <th style="width: 10%">
+                      <a (click)="sortBy('dblyshift')"
+                        >DBLY Shift {{ sortIcon("dblyshift") }}</a
+                      >
+                    </th>
+                    <th style="width: 15%">
+                      <a (click)="sortBy('gardenshift')"
+                        >Garden Shift {{ sortIcon("gardenshift") }}</a
+                      >
+                    </th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of items">
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.code }}</td>
+                    <td>{{ data.kamjname }}</td>
+                    <td>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [checked]="data.dblyshift"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [checked]="data.gardenshift"
+                      />
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-success bg-gradient waves-effect waves-light"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModalFullscreenLgLabel"
+                        *hasPermission="'update'"
+                        (click)="fullLGModal(fullLgDataModal)"
+                        (click)="GetDataByID(data.id)"
+                      >
+                        <i class="bx bx-chevrons-up"></i>
+                      </button>
+                      &nbsp;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- end card-body -->
+        </div>
+        <!-- end card -->
+      </div>
+      <!-- end col -->
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="MasterForm">
+  <input type="hidden" formControlName="UNITID" />
+  <input type="hidden" formControlName="ENROLL" />
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i> Create Shift
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <label for="customer-name" class="col-form-label">Name:</label>
+              <input type="text" class="form-control" formControlName="Name" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Code:</label>
+              <input type="text" class="form-control" formControlName="Code" />
+            </div>
+
+            <div class="col-sm-12">
+              <label for="message-text" class="col-form-label">Kamjari:</label>
+              <select class="form-select" formControlName="KAMJID">
+                <option [value]="">--Select--</option>
+                <option *ngFor="let x of kamjaritypelist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label"
+                >DBLY Shift:</label
+              >&nbsp;
+              <input
+                type="checkbox"
+                formControlName="DBLYShift"
+                style="margin-top: 12px"
+              />
+            </div>
+
+            <div class="col-sm-6">
+              <label for="message-text" class="col-form-label"
+                >Garden Shift:</label
+              >&nbsp;&nbsp;
+              <input
+                type="checkbox"
+                formControlName="GardenShift"
+                style="margin-top: 12px"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-light"
+            aria-label="Close"
+            data-bs-dismiss="modal"
+          >
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Create()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #fullLgDataModal let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalFullscreenLgLabel">
+        Timings Details
+      </h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="table-responsive">
+        <table class="table table-gridjs">
+          <thead style="background-color: rgb(243, 243, 249)">
+            <tr>
+              <th style="width: 10%" class="sort">Name</th>
+              <th style="width: 10%" class="sort">Start Time</th>
+              <th style="width: 10%" class="sort">End Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of shiftlistview">
+              <td>{{ data.name }}</td>
+              <td>{{ data.shiftstart }}</td>
+              <td>{{ data.shiftend }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a
+        href="javascript:void(0);"
+        class="btn btn-link link-success fw-medium"
+        data-bs-dismiss="modal"
+        (click)="modal.close('Close click')"
+        ><i class="ri-close-line me-1 align-middle"></i> Close</a
+      >
+      <!-- <button type="button" class="btn btn-primary" (click)="WorkerManagementCreate()" class="btn btn-success"><i class="bx bx-check"></i>Save changes</button> -->
+    </div>
+  </div>
+</ng-template>

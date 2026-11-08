@@ -1,0 +1,6 @@
+@TEALINK.GARDEN_HostAddress = http://localhost:5248
+
+GET {{TEALINK.GARDEN_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

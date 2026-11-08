@@ -1,0 +1,97 @@
+.cap-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-radius: 18px;
+  background-color: #f8f9fa;
+  border: 1px solid #eef0f2;
+}
+
+.cap-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.cap-value {
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 34px;
+  text-align: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.pill-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.hdr {
+  background-color: #f7f7ff;
+}
+
+/* .sec-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+} */
+
+.sec-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  background-color: #f0fbf9;
+  border: 1px solid #d5f2ec;
+  white-space: nowrap;
+}
+
+.sec-code {
+  font-weight: 600;
+  color: #0ab39c;
+}
+.sec-qty {
+  font-weight: 600;
+  color: #495057;
+  background: #fff;
+  border-radius: 999px;
+}
+
+/* large — few sections */
+.sec-lg .sec-pill {
+  padding: 4px 4px 4px 10px;
+  font-size: 12px;
+  gap: 6px;
+}
+.sec-lg .sec-qty {
+  padding: 1px 8px;
+}
+
+/* medium */
+.sec-md .sec-pill {
+  padding: 3px 3px 3px 8px;
+  font-size: 11px;
+  gap: 5px;
+}
+.sec-md .sec-qty {
+  padding: 1px 7px;
+}
+
+/* small — many sections */
+.sec-sm .sec-pill {
+  padding: 2px 2px 2px 7px;
+  font-size: 10px;
+  gap: 4px;
+}
+.sec-sm .sec-qty {
+  padding: 0 6px;
+}

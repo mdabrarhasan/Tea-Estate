@@ -1,0 +1,46 @@
+<ngx-simplebar
+  class="sidebar-menu-scroll"
+  style="max-height: calc(100vh - 70px)"
+>
+  <ul class="metismenu list-unstyled navbar-nav" id="navbar-nav">
+    <li class="nav-item" *ngFor="let menuItem of menu; let i = index">
+      <a
+        class="nav-link menu-link d-flex justify-content-between align-items-center"
+        href="javascript:void(0)"
+        (click)="toggleMenu(menuItem.id)"
+        [attr.aria-expanded]="activeMenuId === menuItem.id"
+        [class.active]="activeMenuId === menuItem.id"
+        role="button"
+      >
+        <div class="d-flex align-items-center">
+          <span class="menu-icon-frame" [ngClass]="'icon-color-' + (i % 8)">
+            <i class="{{ menuItem.icon }}"></i>
+          </span>
+          <span class="ms-2">{{ menuItem.name }}</span>
+        </div>
+        <i
+          class="ri-arrow-right-s-line menu-arrow"
+          [class.rotate-arrow]="activeMenuId === menuItem.id"
+        ></i>
+      </a>
+      <div
+        class="menu-dropdown scrollable-menu"
+        [class.menu-open]="activeMenuId === menuItem.id"
+        id="menu-{{ menuItem.id }}"
+      >
+        <ul class="nav nav-sm flex-column">
+          <ng-container *ngFor="let sub of submenu">
+            <li class="nav-item" *ngIf="sub.menuid === menuItem.id">
+              <a
+                (click)="toggleforid(sub.id)"
+                routerLink="{{ sub.routerlink }}"
+                class="nav-link"
+                >{{ sub.submenu }}</a
+              >
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</ngx-simplebar>

@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h5
+          class="card-title mb-0"
+          style="font-family: calibri; color: rgb(34, 163, 145)"
+        >
+          <i class="bx bxs-leaf"></i> Date Range Wise Report
+        </h5>
+      </div>
+      <!-- end card header -->
+      <form [formGroup]="MasterForm">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-2">
+              <label>From Date</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="FROMDATE"
+              />
+            </div>
+            <div class="col-sm-2">
+              <label>To Date</label>
+              <input
+                type="date"
+                class="form-control"
+                formControlName="TODATE"
+              />
+            </div>
+            <div class="col-sm-2">
+              <label>Book</label>
+              <select class="form-select" formControlName="BOOKID">
+                <option [value]="0">--All--</option>
+                <option *ngFor="let x of booklist" [value]="x.id">
+                  {{ x.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+              <label>Report Type</label>
+              <select class="form-select" formControlName="REPORTTYPE">
+                <option [value]="">--Select--</option>
+                <option value="1">PF Details</option>
+                <option value="2">PF Summary</option>
+                <option value="3">Absent List</option>
+                <option value="4">Section List</option>
+                <option value="5">Leave List</option>
+                <option value="7">Dual Attendance</option>
+                <option value="6">Garden Summary Report</option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <button
+                type="button"
+                style="margin-top: 28px"
+                (click)="Report()"
+                class="btn btn-info bg-gradient waves-effect waves-light"
+              >
+                <i class="bx bx-down-arrow-circle"></i> Report
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- end card-body -->
+      </form>
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>

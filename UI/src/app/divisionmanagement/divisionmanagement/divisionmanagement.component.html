@@ -1,0 +1,231 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title mb-0">
+          <i class="bx bxs-leaf"></i>Division Management
+        </h4>
+      </div>
+      <!-- end card header -->
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-4">
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              *hasPermission="'insert'"
+            >
+              <i class="bx bx-plus-circle align-middle fs-16 me-2"></i>Create
+              New
+            </button>
+          </div>
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4"></div>
+        </div>
+        <br />
+
+        <div class="table-responsive">
+          <table class="table table-gridjs">
+            <thead style="background-color: rgb(243, 243, 249)">
+              <tr>
+                <th
+                  style="width: 50%"
+                  class="sort"
+                  data-sort="name"
+                  (click)="onSort('name')"
+                >
+                  Name
+                </th>
+                <th
+                  style="width: 30%"
+                  class="sort"
+                  data-sort="email"
+                  (click)="onSort('email')"
+                >
+                  Code
+                </th>
+                <th class="sort" data-sort="email" (click)="onSort('email')">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of griddata">
+                <td>{{ data.name }}</td>
+                <td>{{ data.code }}</td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdropEdit"
+                    *hasPermission="'update'"
+                    (click)="GetDataByID(data.id)"
+                  >
+                    <i class="bx bx-pencil"></i>
+                  </button>
+                  &nbsp;
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    *hasPermission="'delete'"
+                    (click)="Delete(data.id)"
+                  >
+                    <i class="bx bxs-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- end card-body -->
+    </div>
+    <!-- end card -->
+  </div>
+  <!-- end col -->
+</div>
+<!-- end row -->
+
+<form [formGroup]="MasterForm">
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-plus-medical"></i>Create Division
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Select Division:</label
+            >
+            <select class="form-select" formControlName="ID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of gardemlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Division Name:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="customer-name"
+              formControlName="Name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Code:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="customer-name"
+              formControlName="Code"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Create()" class="btn btn-success">
+            <i class="bx bx-check"></i> Create
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form [formGroup]="EMasterForm">
+  <div
+    class="modal fade"
+    id="staticBackdropEdit"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalgridLabel">
+            <i class="bx bx-pencil"></i>Edit Division
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Select Garden:</label
+            >
+            <select class="form-select" formControlName="EID">
+              <option [value]="">--Select--</option>
+              <option *ngFor="let x of gardemlist" [value]="x.id">
+                {{ x.name }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="customer-name" class="col-form-label"
+              >Division Name:</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="customer-name"
+              formControlName="EName"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Code:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="customer-name"
+              formControlName="ECode"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            <i class="bx bx-x-circle"></i> Close
+          </button>
+          <button type="button" (click)="Update()" class="btn btn-success">
+            <i class="bx bx-check"></i> Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

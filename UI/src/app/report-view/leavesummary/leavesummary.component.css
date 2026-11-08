@@ -1,0 +1,340 @@
+/* =========================================================
+   Leave Summary — prefix: lvs-
+   Same look as the other System Reports (teal #22A395, Calibri headings)
+   ========================================================= */
+
+:host {
+  --lvs-teal: #22a395;
+  --lvs-teal-dark: #1b8a7e;
+  --lvs-teal-soft: rgba(34, 163, 145, 0.08);
+  --lvs-teal-border: rgba(34, 163, 145, 0.35);
+  --lvs-border: #e3e8ee;
+  --lvs-muted: #6c757d;
+  --lvs-text: #2b3440;
+}
+
+/* ---------- card ---------- */
+.lvs-card {
+  border: 1px solid var(--lvs-border);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.lvs-header {
+  background: #fff;
+  border-bottom: 2px solid var(--lvs-teal);
+}
+
+.lvs-title {
+  font-family: Calibri;
+  color: var(--lvs-teal);
+  letter-spacing: 0.2px;
+}
+
+.lvs-title i {
+  margin-right: 4px;
+}
+
+/* ---------- top bar ---------- */
+.lvs-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px dashed var(--lvs-border);
+}
+
+.lvs-dates {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.lvs-date-field {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.lvs-date-field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--lvs-text);
+  margin-bottom: 4px;
+}
+
+.lvs-date-field .form-control:focus,
+.lvs-panel-search .form-control:focus {
+  border-color: var(--lvs-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.2);
+}
+
+.lvs-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.lvs-btn-generate,
+.lvs-btn-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+.lvs-btn-generate {
+  background: var(--lvs-teal);
+  border: 1px solid var(--lvs-teal);
+  color: #fff;
+}
+
+.lvs-btn-generate:hover {
+  background: var(--lvs-teal-dark);
+  border-color: var(--lvs-teal-dark);
+  color: #fff;
+}
+
+.lvs-btn-clear {
+  background: #fff;
+  border: 1px solid var(--lvs-border);
+  color: var(--lvs-muted);
+}
+
+.lvs-btn-clear:hover {
+  border-color: var(--lvs-teal-border);
+  color: var(--lvs-teal);
+}
+
+/* ---------- body: rail + panel ---------- */
+.lvs-body {
+  display: flex;
+  gap: 16px;
+  min-height: 420px;
+}
+
+/* left rail */
+.lvs-rail {
+  flex: 0 0 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lvs-rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--lvs-border);
+  border-radius: 8px;
+  color: var(--lvs-text);
+  font-weight: 600;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.lvs-rail-btn:hover {
+  border-color: var(--lvs-teal-border);
+  background: var(--lvs-teal-soft);
+}
+
+.lvs-rail-btn.active {
+  background: var(--lvs-teal);
+  border-color: var(--lvs-teal);
+  color: #fff;
+}
+
+.lvs-rail-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lvs-rail-label i {
+  font-size: 1.1rem;
+}
+
+.lvs-badge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--lvs-teal);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lvs-rail-btn.active .lvs-badge {
+  background: #fff;
+  color: var(--lvs-teal);
+}
+
+/* center panel */
+.lvs-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--lvs-border);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.lvs-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--lvs-teal-soft);
+  border-bottom: 1px solid var(--lvs-border);
+}
+
+.lvs-panel-title {
+  font-family: Calibri, "Segoe UI", sans-serif;
+  font-size: medium;
+  font-weight: 700;
+  color: var(--lvs-teal);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lvs-panel-search {
+  position: relative;
+  width: 260px;
+  max-width: 100%;
+}
+
+.lvs-panel-search i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--lvs-muted);
+}
+
+.lvs-panel-search .form-control {
+  padding-left: 32px;
+  height: 34px;
+  font-size: 0.875rem;
+}
+
+.lvs-selectall {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--lvs-border);
+  background: #fafbfc;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.lvs-list {
+  flex: 1 1 auto;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 6px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  align-content: start;
+  gap: 4px;
+}
+
+/* checkbox rows */
+.lvs-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.lvs-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--lvs-teal);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.lvs-row {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: var(--lvs-text);
+  transition: background 0.12s ease;
+}
+
+.lvs-row:hover {
+  background: var(--lvs-teal-soft);
+}
+
+.lvs-row.checked {
+  background: rgba(34, 163, 145, 0.14);
+  font-weight: 600;
+}
+
+.lvs-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* empty / loading states */
+.lvs-state {
+  grid-column: 1 / -1;
+  padding: 28px 12px;
+  text-align: center;
+  color: var(--lvs-muted);
+  font-size: 0.9rem;
+}
+
+.lvs-state i {
+  font-size: 1.3rem;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.lvs-panel-empty {
+  margin: auto;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 768px) {
+  .lvs-body {
+    flex-direction: column;
+  }
+
+  .lvs-rail {
+    flex: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .lvs-rail-btn {
+    width: auto;
+    flex: 1 1 140px;
+  }
+
+  .lvs-panel-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lvs-panel-search {
+    width: 100%;
+  }
+}

@@ -1,0 +1,302 @@
+/* ============================================================
+   Worker Wise Attendance Details — Tea Link themed report page
+   Primary teal: #22A395  (rgb(34,163,145))
+   ============================================================ */
+
+.wwad-card {
+  --wwad-teal: #22a395;
+  --wwad-teal-dark: #1b8375;
+  --wwad-teal-tint: #eaf7f5;
+  --wwad-line: #e6e9ef;
+  --wwad-surface: #f7f9fb;
+  --wwad-text: #384250;
+  --wwad-muted: #8b95a5;
+}
+
+/* ---------- header ---------- */
+.wwad-header {
+  background: #fff;
+  border-bottom: 2px solid var(--wwad-teal);
+}
+.wwad-title {
+  font-family: calibri;
+  color: var(--wwad-teal);
+  letter-spacing: 0.2px;
+}
+.wwad-title i {
+  margin-right: 4px;
+}
+
+/* ---------- top bar ---------- */
+.wwad-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 4px 2px 16px;
+  border-bottom: 1px solid var(--wwad-line);
+  margin-bottom: 16px;
+}
+.wwad-dates {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.wwad-date-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--wwad-muted);
+  margin-bottom: 4px;
+}
+.wwad-date-field .form-control {
+  min-width: 170px;
+  border-color: var(--wwad-line);
+}
+.wwad-date-field .form-control:focus {
+  border-color: var(--wwad-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.18);
+}
+
+.wwad-actions {
+  display: flex;
+  gap: 10px;
+}
+.wwad-btn-generate,
+.wwad-btn-clear {
+  min-width: 120px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.wwad-btn-generate {
+  background: var(--wwad-teal);
+  border: 1px solid var(--wwad-teal);
+  color: #fff;
+}
+.wwad-btn-generate:hover {
+  background: var(--wwad-teal-dark);
+  border-color: var(--wwad-teal-dark);
+  color: #fff;
+}
+.wwad-btn-clear {
+  background: #fff;
+  border: 1px solid var(--wwad-line);
+  color: var(--wwad-text);
+}
+.wwad-btn-clear:hover {
+  background: var(--wwad-surface);
+  border-color: var(--wwad-muted);
+}
+
+/* ---------- body: rail + panel ---------- */
+.wwad-body {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* ---------- left rail ---------- */
+.wwad-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wwad-rail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid var(--wwad-line);
+  border-left: 3px solid transparent;
+  border-radius: 8px;
+  color: var(--wwad-text);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.wwad-rail-btn:hover {
+  background: var(--wwad-surface);
+}
+.wwad-rail-btn.active {
+  background: var(--wwad-teal-tint);
+  border-color: var(--wwad-teal);
+  border-left-color: var(--wwad-teal);
+  color: var(--wwad-teal-dark);
+  font-weight: 600;
+}
+.wwad-rail-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.wwad-rail-label i {
+  font-size: 1.05rem;
+}
+.wwad-badge {
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: var(--wwad-teal);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- center panel ---------- */
+.wwad-panel-empty {
+  margin: auto;
+}
+.wwad-panel {
+  border: 1px solid var(--wwad-line);
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+.wwad-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--wwad-surface);
+  border-bottom: 1px solid var(--wwad-line);
+  flex-wrap: wrap;
+}
+.wwad-panel-title {
+  font-weight: 600;
+  color: var(--wwad-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.wwad-panel-title i {
+  color: var(--wwad-teal);
+}
+.wwad-panel-search {
+  position: relative;
+  flex: 1;
+  max-width: 280px;
+}
+.wwad-panel-search i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--wwad-muted);
+}
+.wwad-panel-search .form-control {
+  padding-left: 32px;
+  border-color: var(--wwad-line);
+}
+.wwad-panel-search .form-control:focus {
+  border-color: var(--wwad-teal);
+  box-shadow: 0 0 0 0.15rem rgba(34, 163, 145, 0.18);
+}
+
+.wwad-selectall {
+  padding: 8px 14px;
+  border-bottom: 1px dashed var(--wwad-line);
+  background: #fff;
+}
+
+/* ---------- list ---------- */
+.wwad-list {
+  padding: 6px 0;
+  overflow-y: auto;
+  max-height: 460px;
+  flex: 1;
+}
+
+.wwad-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  cursor: pointer;
+  color: var(--wwad-text);
+  user-select: none;
+}
+.wwad-check input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--wwad-teal);
+  cursor: pointer;
+}
+.wwad-selectall .wwad-check span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--wwad-muted);
+}
+
+.wwad-row {
+  padding: 9px 14px;
+  border-bottom: 1px solid #f1f3f7;
+  transition: background-color 0.12s ease;
+}
+.wwad-row:hover {
+  background: var(--wwad-surface);
+}
+.wwad-row.checked {
+  background: var(--wwad-teal-tint);
+}
+.wwad-row span {
+  font-size: 0.92rem;
+}
+
+/* ---------- states ---------- */
+.wwad-state {
+  padding: 28px 14px;
+  text-align: center;
+  color: var(--wwad-muted);
+  font-size: 0.9rem;
+}
+.wwad-state i {
+  font-size: 1.1rem;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 768px) {
+  .wwad-body {
+    grid-template-columns: 1fr;
+  }
+  .wwad-rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .wwad-rail-btn {
+    width: auto;
+    flex: 1 1 40%;
+  }
+  .wwad-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .wwad-actions {
+    justify-content: flex-end;
+  }
+}
