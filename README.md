@@ -1,4 +1,4 @@
-# TeaLink — Tea Garden HR, Attendance & Payroll System
+# Tea Estate - Tea Garden HR, Attendance & Payroll System
 
 An enterprise ERP for tea garden operations that manages worker attendance, wages, leave, bonus and provident fund across multiple garden units, with role-based access control and SSRS reporting.
 
@@ -9,6 +9,10 @@ An enterprise ERP for tea garden operations that manages worker attendance, wage
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap%205-7952B3?logo=bootstrap&logoColor=white)
 ![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens&logoColor=white)
+
+![TeaLink Garden Overview Dashboard](docs/screenshots/dashboard.png)
+
+<p align="center"><em>Garden overview dashboard: daily attendance, overtime, section-wise plucking, 7-day plucking trend and attendance breakdown</em></p>
 
 ---
 
@@ -184,14 +188,14 @@ Open `http://localhost:4200` in your browser.
 
 ## About This Project
 
-TeaLink was developed for the tea estates of **AkijBashir Group**, Bangladesh, and is published here with the company's permission for portfolio purposes. All credentials, server addresses and production data have been removed.
+TeaLink was developed for the tea estates of **AkijBashir Group**, which is published here with the company's permission for portfolio purposes. All credentials, server addresses and production data have been removed.
 
 ## Author
 
-**Abrar Hasan**: Full-Stack Developer (ASP.NET Core · Angular · SQL Server)
+**Md Abrar Hasan**: Full-Stack Developer (ASP.NET Core · Angular · SQL Server)
 
 - GitHub: [https://github.com/mdabrarhasan](https://github.com/mdabrarhasan)
-- LinkedIn: [https://linkedin.com/in/mdabrarhasan](https://linkedin.com/in/mdabrarhasan)
+- LinkedIn: [https://linkedin.com/in/mdabrarhasan](https://www.linkedin.com/)
 - Email: abrarhasan2616@gmail.com
 
 ## License
